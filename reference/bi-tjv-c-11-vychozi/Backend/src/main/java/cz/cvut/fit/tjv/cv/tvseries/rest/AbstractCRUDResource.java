@@ -22,6 +22,7 @@ public abstract class AbstractCRUDResource<T, U> {
     }
     
     protected abstract AbstractCRUDController<T> getController();
+
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Collection<U> retrieveAll() {
