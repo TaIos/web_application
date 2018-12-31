@@ -1,0 +1,48 @@
+zalozit maven web application
+	* Glassfish server
+	* Jave EE 7 Web
+	* vzdy clean&build pro vetsi upravy
+data pool & data source
+	* postup moodle
+	* JDBC resources
+		* jdbc/nazev -> bude odkazovat na con. pool
+	* JDBC connection pool
+		* ping
+	* glassfish musi videt na ovladac (nastavit v konfiguraci glassfish)
+vytvorit entitni package
+	* new -> other -> persistence -> entity class (nebo nagenerovat, ale problem s autoinkrementem)
+		* create persistance unit yes (rika jak se pripojit na pool)
+		* prejmenovat, jmeno je strasne
+		* provider: jedno (EclipseLink)
+		* data source: jdbc/nazev (editovatelny v xml)
+		* strategy: vzdy create, jinak promaze databazi
+	* ostatni entitni tridy (@Entity)
+		* new -> other -> persistence -> entity class
+		* doplneni atributu (@Id, @ManyToMany, ...)
+		* nesmi se zakryvat, vyrabet, generovat konstruktory, protoze se pocomi reflexe nacitaci data a nevi se, co se
+		 do naseno vygenerovaneho konstruktoru ma poslat! (pokud potrebuji, vytvorim factory class FactorySth, zavolam
+		 jeji konstruktor a ta mi vrati vytvorenou tridu tak jak jsem si ji predstavoval -> vezme entitni tridu a 
+		 naplni ji)
+		* vztahy
+			* lepsi @OneToMany, pak pomoci toho dopocitat
+REST
+	* new package: services
+	* new -> other -> web services -> Restful web services from database/entity class (vygenerovat!, ne maunualne)
+		* vybrat entitni tridy ->  next
+	* Kde a ktere sluzby (application config, nebo rucne napsat ve web.xml -> zastaraly zpusob)
+		* Novy zpusob:application config
+			* @javax.ws.rs.ApplicationPath (path na webservice, eg ...:8080/lesson10/webresources/moje_webservices)
+			* addRestResourceClasses (tam se nahazi entitni tridy)
+			tipy:
+				* nevracet primo list ale vracet DTO (zabali objekt DTO ve kterem je list)
+					* eg:
+						@GET
+						AnimalsDTO = new AnimalsDTO();
+	* klient (u zkousky staci takhle jednoduche, rika Pavlicek)
+		* new project -> java application
+			* new -> web services -> restful java client
+				* nabrowsovat svuj objekt: SomeFasadeRest
+				* finish
+				* new -> java class -> sth_main
+					* vytvorim noveho clienta
+					* musim vykopirovat entitni tridy do klienta (neni to ciste, ale je to ok, lepsi common object)
