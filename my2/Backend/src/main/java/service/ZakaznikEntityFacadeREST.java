@@ -3,7 +3,6 @@ package service;
 import dto.ZakaznikDTO;
 import entity.ZakaznikEntity;
 import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +15,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
 
 @Stateless
 @Path("/zakaznik")

@@ -3,7 +3,6 @@ package service;
 import dto.ZamestnanecDTO;
 import entity.ZamestnanecEntity;
 import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

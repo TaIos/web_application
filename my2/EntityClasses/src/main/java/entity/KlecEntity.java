@@ -2,10 +2,10 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,27 +39,26 @@ public class KlecEntity implements Serializable {
 	private Integer prohlidkaId;
 
 	@ManyToMany(mappedBy = "ukliziKlece")
-	private ArrayList<ZamestnanecEntity> jeUklizena = new ArrayList<ZamestnanecEntity>();
+	private Collection<ZamestnanecEntity> jeUklizena = new ArrayList<ZamestnanecEntity>();
 
 	public KlecEntity() {
 	}
 
-	public KlecEntity(Long id, Integer pocetTukanu, Double velikostKleceM3, String vybaveni, Integer prohlidkaId, ArrayList<ZamestnanecEntity> jeUklizena) {
+	public KlecEntity(Long id, Integer pocetTukanu, Double velikostKleceM3, String vybaveni, Integer prohlidkaId) {
 		this.id = id;
 		this.pocetTukanu = pocetTukanu;
 		this.velikostKleceM3 = velikostKleceM3;
 		this.vybaveni = vybaveni;
 		this.prohlidkaId = prohlidkaId;
-		this.jeUklizena = jeUklizena;
 	}
 
 	@XmlTransient
 	@JsonbTransient
-	public ArrayList<ZamestnanecEntity> getJeUklizena() {
+	public Collection<ZamestnanecEntity> getJeUklizena() {
 		return jeUklizena;
 	}
 
-	public void setJeUklizena(ArrayList<ZamestnanecEntity> jeUklizena) {
+	public void setJeUklizena(Collection<ZamestnanecEntity> jeUklizena) {
 		this.jeUklizena = jeUklizena;
 	}
 
