@@ -3,18 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui;
+package clients;
 
-import javax.ws.rs.ClientErrorException;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
 /**
- * Jersey REST client generated for REST resource:ObjednavkaEntityFacadeREST
- * [/objednavka]<br>
+ * Jersey REST client generated for REST resource:KlecEntityFacadeREST
+ * [/klec]<br>
  * USAGE:
  * <pre>
- *        ObjednavkyJerseyClient client = new ObjednavkyJerseyClient();
+ *        KlecJerseyClient client = new KlecJerseyClient();
  *        Object response = client.XXX(...);
  *        // do whatever with response
  *        client.close();
@@ -22,75 +20,75 @@ import javax.ws.rs.client.WebTarget;
  *
  * @author slarty
  */
-public class ObjednavkyJerseyClient {
+public class KlecJerseyClient {
 
-	private WebTarget webTarget;
-	private Client client;
+	private javax.ws.rs.client.WebTarget webTarget;
+	private javax.ws.rs.client.Client client;
 	private static final String BASE_URI = "http://localhost:8080/Backend//rest";
 
-	public ObjednavkyJerseyClient() {
+	public KlecJerseyClient() {
 		client = javax.ws.rs.client.ClientBuilder.newClient();
-		webTarget = client.target(BASE_URI).path("objednavka");
+		webTarget = client.target(BASE_URI).path("klec");
 	}
 
-	public String countREST() throws ClientErrorException {
+	public String countREST() throws javax.ws.rs.ClientErrorException {
 		WebTarget resource = webTarget;
 		resource = resource.path("count");
 		return resource.request(javax.ws.rs.core.MediaType.TEXT_PLAIN).get(String.class);
 	}
 
-	public void edit_XML(Object requestEntity, String id) throws ClientErrorException {
+	public void edit_XML(Object requestEntity, String id) throws javax.ws.rs.ClientErrorException {
 		webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
 	}
 
-	public void edit_JSON(Object requestEntity, String id) throws ClientErrorException {
+	public void edit_JSON(Object requestEntity, String id) throws javax.ws.rs.ClientErrorException {
 		webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
 	}
 
-	public <T> T findObjednavku_XML(Class<T> responseType, String id) throws ClientErrorException {
+	public <T> T findAllKlece_XML(Class<T> responseType) throws javax.ws.rs.ClientErrorException {
+		WebTarget resource = webTarget;
+		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+	}
+
+	public <T> T findAllKlece_JSON(Class<T> responseType) throws javax.ws.rs.ClientErrorException {
+		WebTarget resource = webTarget;
+		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+	}
+
+	public <T> T findKlec_XML(Class<T> responseType, String id) throws javax.ws.rs.ClientErrorException {
 		WebTarget resource = webTarget;
 		resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
 		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
 	}
 
-	public <T> T findObjednavku_JSON(Class<T> responseType, String id) throws ClientErrorException {
+	public <T> T findKlec_JSON(Class<T> responseType, String id) throws javax.ws.rs.ClientErrorException {
 		WebTarget resource = webTarget;
 		resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
 		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
 	}
 
-	public void create_XML(Object requestEntity) throws ClientErrorException {
+	public void create_XML(Object requestEntity) throws javax.ws.rs.ClientErrorException {
 		webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
 	}
 
-	public void create_JSON(Object requestEntity) throws ClientErrorException {
+	public void create_JSON(Object requestEntity) throws javax.ws.rs.ClientErrorException {
 		webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
 	}
 
-	public void remove(String id) throws ClientErrorException {
+	public <T> T findRangeKlece_XML(Class<T> responseType, String from, String to) throws javax.ws.rs.ClientErrorException {
+		WebTarget resource = webTarget;
+		resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{from, to}));
+		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+	}
+
+	public <T> T findRangeKlece_JSON(Class<T> responseType, String from, String to) throws javax.ws.rs.ClientErrorException {
+		WebTarget resource = webTarget;
+		resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{from, to}));
+		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+	}
+
+	public void remove(String id) throws javax.ws.rs.ClientErrorException {
 		webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
-	}
-
-	public <T> T findAllObjednavky_XML(Class<T> responseType) throws ClientErrorException {
-		WebTarget resource = webTarget;
-		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
-	}
-
-	public <T> T findAllObjednavky_JSON(Class<T> responseType) throws ClientErrorException {
-		WebTarget resource = webTarget;
-		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
-	}
-
-	public <T> T findRangeObjednavky_XML(Class<T> responseType, String from, String to) throws ClientErrorException {
-		WebTarget resource = webTarget;
-		resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{from, to}));
-		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
-	}
-
-	public <T> T findRangeObjednavky_JSON(Class<T> responseType, String from, String to) throws ClientErrorException {
-		WebTarget resource = webTarget;
-		resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{from, to}));
-		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
 	}
 
 	public void close() {
