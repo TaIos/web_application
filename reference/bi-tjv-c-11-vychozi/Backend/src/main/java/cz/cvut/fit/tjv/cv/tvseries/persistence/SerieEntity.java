@@ -1,7 +1,7 @@
 package cz.cvut.fit.tjv.cv.tvseries.persistence;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.EmbeddedId;
@@ -28,7 +28,7 @@ public class SerieEntity implements Serializable {
     private Date added;
     
     @ManyToMany(mappedBy = "favourites")
-    private Collection<PersonEntity> fans;
+    private ArrayList<PersonEntity> fans;
     
     public SerieEntity() {}
 
@@ -49,11 +49,11 @@ public class SerieEntity implements Serializable {
         this.added = added;
     }
 
-    public Collection<PersonEntity> getFans() {
+    public ArrayList<PersonEntity> getFans() {
         return fans;
     }
 
-    public void setFans(Collection<PersonEntity> fans) {
+    public void setFans(ArrayList<PersonEntity> fans) {
         this.fans = fans;
     }
 

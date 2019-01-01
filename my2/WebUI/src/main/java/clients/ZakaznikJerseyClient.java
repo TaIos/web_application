@@ -26,7 +26,7 @@ public class ZakaznikJerseyClient {
 
 	private WebTarget webTarget;
 	private Client client;
-	private static final String BASE_URI = "http://localhost:8080/Backend//rest";
+	private static final String BASE_URI = "http://localhost:8080/Backend/rest";
 
 	public ZakaznikJerseyClient() {
 		client = javax.ws.rs.client.ClientBuilder.newClient();

@@ -2,7 +2,6 @@ package cz.cvut.fit.tjv.cv.tvseries.persistence;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,12 +32,12 @@ public class PersonEntity implements Serializable {
             joinColumns = @JoinColumn(name = "PID", referencedColumnName = "PID"),
             inverseJoinColumns = {@JoinColumn(name = "STITLE", referencedColumnName = "STITLE"), @JoinColumn(name = "EID", referencedColumnName = "EID", insertable = false)}
     )
-    private Collection<SerieEntity> favourites = new ArrayList<>();
+    private ArrayList<SerieEntity> favourites = new ArrayList<>();
 
     
     public PersonEntity() {}
 
-    public PersonEntity(Integer id, String name, Collection<SerieEntity> favourites) {
+    public PersonEntity(Integer id, String name, ArrayList<SerieEntity> favourites) {
         this.id = id;
         this.name = name;
         this.favourites = favourites;
@@ -61,11 +60,11 @@ public class PersonEntity implements Serializable {
         this.name = name;
     }
 
-    public Collection<SerieEntity> getFavourites() {
+    public ArrayList<SerieEntity> getFavourites() {
         return favourites;
     }
 
-    public void setFavourites(Collection<SerieEntity> favourites) {
+    public void setFavourites(ArrayList<SerieEntity> favourites) {
         this.favourites = favourites;
     }
 

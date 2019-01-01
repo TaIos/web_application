@@ -1,7 +1,7 @@
 package cz.cvut.fit.tjv.cv.tvseries.rest;
 
 import cz.cvut.fit.tjv.cv.tvseries.persistence.AbstractCRUDController;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.ws.rs.Consumes;
@@ -25,7 +25,7 @@ public abstract class AbstractCRUDResource<T, U> {
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Collection<U> retrieveAll() {
+    public ArrayList<U> retrieveAll() {
         return getController().retrieveAll()
                 .stream()
                 .map(entityToDtoConverter)

@@ -24,7 +24,7 @@ public class KlecJerseyClient {
 
 	private javax.ws.rs.client.WebTarget webTarget;
 	private javax.ws.rs.client.Client client;
-	private static final String BASE_URI = "http://localhost:8080/Backend//rest";
+	private static final String BASE_URI = "http://localhost:8080/Backend/rest";
 
 	public KlecJerseyClient() {
 		client = javax.ws.rs.client.ClientBuilder.newClient();

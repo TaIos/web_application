@@ -2,7 +2,6 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +40,7 @@ public class ZakaznikEntity implements Serializable {
 
 	@OneToMany
 	@JoinColumn(name = "ID_ZAK")
-	private Collection<ObjednavkaEntity> objednavky = new ArrayList<>();
+	private ArrayList<ObjednavkaEntity> objednavky = new ArrayList<>();
 
 	public ZakaznikEntity() {
 	}
@@ -55,7 +54,7 @@ public class ZakaznikEntity implements Serializable {
 	}
 
 	@XmlTransient
-	public Collection<ObjednavkaEntity> getObjednavky() {
+	public ArrayList<ObjednavkaEntity> getObjednavky() {
 		return objednavky;
 	}
 

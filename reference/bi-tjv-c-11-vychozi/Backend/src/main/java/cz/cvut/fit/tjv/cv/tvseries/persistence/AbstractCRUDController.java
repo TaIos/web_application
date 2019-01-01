@@ -1,6 +1,6 @@
 package cz.cvut.fit.tjv.cv.tvseries.persistence;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Objects;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,7 +30,7 @@ public abstract class AbstractCRUDController<T> {
         return retrieveEntity(Objects.requireNonNull(id));
     }
 
-    public Collection<T> retrieveAll() {
+    public ArrayList<T> retrieveAll() {
         return entityManager
                 .createQuery(
                         entityManager.getCriteriaBuilder().createQuery(entityClass)

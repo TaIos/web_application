@@ -2,7 +2,6 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,7 +54,7 @@ public class ZamestnanecEntity implements Serializable {
 		joinColumns = @JoinColumn(name = "ZAM_ID", referencedColumnName = "ZAM_ID"),
 		inverseJoinColumns = @JoinColumn(name = "KLEC_ID", referencedColumnName = "KLEC_ID")
 	)
-	private Collection<KlecEntity> ukliziKlece = new ArrayList<>();
+	private ArrayList<KlecEntity> ukliziKlece = new ArrayList<>();
 
 	public ZamestnanecEntity() {
 	}
@@ -73,11 +72,11 @@ public class ZamestnanecEntity implements Serializable {
 
 	@JsonbTransient
 	@XmlTransient
-	public Collection<KlecEntity> getUkliziKlece() {
+	public ArrayList<KlecEntity> getUkliziKlece() {
 		return ukliziKlece;
 	}
 
-	public void setUkliziKlece(Collection<KlecEntity> ukliziKlece) {
+	public void setUkliziKlece(ArrayList<KlecEntity> ukliziKlece) {
 		this.ukliziKlece = ukliziKlece;
 	}
 

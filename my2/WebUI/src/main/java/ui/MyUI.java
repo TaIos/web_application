@@ -1,5 +1,9 @@
 package ui;
 
+import clients.KlecJerseyClient;
+import clients.ObjednavkyJerseyClient;
+import clients.ZakaznikJerseyClient;
+import clients.ZamestnanecJerseyClient;
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
@@ -8,12 +12,21 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import dto.KlecDTO;
+import dto.ObjednavkaDTO;
+import dto.ZakaznikDTO;
+import dto.ZamestnanecDTO;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser
@@ -27,9 +40,46 @@ import com.vaadin.ui.themes.ValoTheme;
 @Theme("mytheme")
 public class MyUI extends UI {
 
+	private List<KlecDTO> kleceData;
+	private List<ObjednavkaDTO> objednavkyData;
+	private List<ZakaznikDTO> zakazniciData;
+	private List<ZamestnanecDTO> zamestnanciData;
+
+	KlecJerseyClient klecJerseyClient;
+	ObjednavkyJerseyClient objednavkyJerseyClient;
+	ZakaznikJerseyClient zakaznikJerseyClient;
+	ZamestnanecJerseyClient zamestnanecJerseyClient;
+
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
+
 		final VerticalLayout layout = new VerticalLayout();
+
+		// LOAD DATA
+		try {
+			klecJerseyClient = new KlecJerseyClient();
+			objednavkyJerseyClient = new ObjednavkyJerseyClient();
+			zakaznikJerseyClient = new ZakaznikJerseyClient();
+			zamestnanecJerseyClient = new ZamestnanecJerseyClient();
+
+			kleceData = new ArrayList<>(Arrays.asList(klecJerseyClient.findAllKlece_JSON(KlecDTO.class)));
+			objednavkyData = new ArrayList<>(Arrays.asList(objednavkyJerseyClient.findAllObjednavky_JSON(ObjednavkaDTO.class)));
+			zakazniciData = new ArrayList<>(Arrays.asList(zakaznikJerseyClient.findAllZakazniky_JSON(ZakaznikDTO.class)));
+			//zamestnanciData = new ArrayList<>(Arrays.asList(zamestnanecJerseyClient.findAllZamestnance_JSON(ZamestnanecDTO.class)));
+		} catch (Exception e) {
+			Notification.show("Series service is not running " + e, Notification.Type.ERROR_MESSAGE);
+			Label error = new Label(e.toString());
+			layout.addComponent(error);
+			setContent(layout);
+			return;
+		} finally {
+			/*
+			klecJerseyClient.close();
+			objednavkyJerseyClient.close();
+			zakaznikJerseyClient.close();
+			zamestnanecJerseyClient.close();
+			 */
+		}
 
 		// CREATE LAYOUTS FOR EACH COMPONENT
 		GridLayout defaultLayout = new GridLayout(3, 1);
@@ -79,6 +129,12 @@ public class MyUI extends UI {
 		zamestnanecLayout.addComponent(headZamestnanec, 1, 0);
 		zamestnanecLayout.setComponentAlignment(headZamestnanec, Alignment.MIDDLE_CENTER);
 
+		// DISPLAY DATA
+		/*
+		Grid<KlecDTO> gridKlec = new Grid<>(KlecDTO.class);
+		gridKlec.setItems(kleceData);
+		klecLayout.addComponent(gridKlec);
+		 */
 		// ADD LAYOUTS TO MAIN FRAME
 		layout.addComponent(defaultLayout);
 		layout.addComponent(klecLayout);
