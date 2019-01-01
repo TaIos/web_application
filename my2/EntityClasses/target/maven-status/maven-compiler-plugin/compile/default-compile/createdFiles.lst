@@ -1,0 +1,8 @@
+dto/ObjednavkaDTO.class
+dto/ZakaznikDTO.class
+dto/ZamestnanecDTO.class
+entity/ObjednavkaEntity.class
+entity/ZamestnanecEntity.class
+entity/ZakaznikEntity.class
+entity/KlecEntity.class
+dto/KlecDTO.class
