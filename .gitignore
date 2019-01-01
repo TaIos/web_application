@@ -3,3 +3,4 @@
 *.jar
 *.war
 my/Backend/target/
+/reference/bi-tjv-c-11-vychozi/WebUI/target/

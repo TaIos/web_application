@@ -1,11 +1,11 @@
-@import "seriestheme.scss";
+@import "mytheme.scss";
 @import "addons.scss";
 
 // This file prefixes all rules with the theme name to avoid causing conflicts with other themes.
-// The actual styles should be defined in seriestheme.scss
+// The actual styles should be defined in mytheme.scss
 
-.seriestheme {
+.mytheme {
   @include addons;
-  @include seriestheme;
+  @include mytheme;
 
 }
