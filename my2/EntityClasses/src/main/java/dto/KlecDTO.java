@@ -7,6 +7,9 @@ import entity.KlecEntity;
 
 public class KlecDTO implements Serializable {
 
+	public KlecDTO() {
+	}
+
 	private List<KlecEntity> klece = new ArrayList<>();
 
 	public List<KlecEntity> getKlece() {

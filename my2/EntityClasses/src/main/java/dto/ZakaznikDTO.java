@@ -7,6 +7,9 @@ import entity.ZakaznikEntity;
 
 public class ZakaznikDTO implements Serializable {
 
+	public ZakaznikDTO() {
+	}
+
 	private List<ZakaznikEntity> zakaznici = new ArrayList<>();
 
 	public List<ZakaznikEntity> getZakaznici() {

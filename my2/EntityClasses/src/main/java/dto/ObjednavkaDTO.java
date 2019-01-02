@@ -7,6 +7,9 @@ import entity.ObjednavkaEntity;
 
 public class ObjednavkaDTO implements Serializable {
 
+	public ObjednavkaDTO() {
+	}
+
 	private List<ObjednavkaEntity> objednavky = new ArrayList<>();
 
 	public List<ObjednavkaEntity> getObjednavky() {

@@ -7,6 +7,9 @@ import entity.ZamestnanecEntity;
 
 public class ZamestnanecDTO implements Serializable {
 
+	public ZamestnanecDTO() {
+	}
+
 	private List<ZamestnanecEntity> zamestnanci = new ArrayList<>();
 
 	public List<ZamestnanecEntity> getZamestnanci() {
