@@ -40,10 +40,10 @@ import java.util.List;
 @Theme("mytheme")
 public class MyUI extends UI {
 
-	private List<KlecDTO> kleceData;
-	private List<ObjednavkaDTO> objednavkyData;
-	private List<ZakaznikDTO> zakazniciData;
-	private List<ZamestnanecDTO> zamestnanciData;
+	private ArrayList<KlecDTO> kleceData;
+	private ArrayList<ObjednavkaDTO> objednavkyData;
+	private ArrayList<ZakaznikDTO> zakazniciData;
+	private ArrayList<ZamestnanecDTO> zamestnanciData;
 
 	KlecJerseyClient klecJerseyClient;
 	ObjednavkyJerseyClient objednavkyJerseyClient;
@@ -65,7 +65,7 @@ public class MyUI extends UI {
 			kleceData = new ArrayList<>(Arrays.asList(klecJerseyClient.findAllKlece_JSON(KlecDTO.class)));
 			objednavkyData = new ArrayList<>(Arrays.asList(objednavkyJerseyClient.findAllObjednavky_JSON(ObjednavkaDTO.class)));
 			zakazniciData = new ArrayList<>(Arrays.asList(zakaznikJerseyClient.findAllZakazniky_JSON(ZakaznikDTO.class)));
-			//zamestnanciData = new ArrayList<>(Arrays.asList(zamestnanecJerseyClient.findAllZamestnance_JSON(ZamestnanecDTO.class)));
+			zamestnanciData = new ArrayList<>(Arrays.asList(zamestnanecJerseyClient.findAllZamestnance_JSON(ZamestnanecDTO.class)));
 		} catch (Exception e) {
 			Notification.show("Series service is not running " + e, Notification.Type.ERROR_MESSAGE);
 			Label error = new Label(e.toString());
@@ -130,11 +130,9 @@ public class MyUI extends UI {
 		zamestnanecLayout.setComponentAlignment(headZamestnanec, Alignment.MIDDLE_CENTER);
 
 		// DISPLAY DATA
-		/*
 		Grid<KlecDTO> gridKlec = new Grid<>(KlecDTO.class);
 		gridKlec.setItems(kleceData);
 		klecLayout.addComponent(gridKlec);
-		 */
 		// ADD LAYOUTS TO MAIN FRAME
 		layout.addComponent(defaultLayout);
 		layout.addComponent(klecLayout);

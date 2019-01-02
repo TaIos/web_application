@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,6 +59,7 @@ public class ZakaznikEntity implements Serializable {
 		this.objednavky = objednavky;
 	}
 
+	@JsonbTransient
 	@XmlTransient
 	public Collection<ObjednavkaEntity> getObjednavky() {
 		return objednavky;
