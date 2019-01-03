@@ -10,6 +10,10 @@ public class ObjednavkaDTO implements Serializable {
 	public ObjednavkaDTO() {
 	}
 
+	public ObjednavkaDTO(List<ObjednavkaEntity> objednavky) {
+		this.objednavky = objednavky;
+	}
+
 	private List<ObjednavkaEntity> objednavky = new ArrayList<>();
 
 	public List<ObjednavkaEntity> getObjednavky() {

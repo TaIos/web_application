@@ -10,6 +10,10 @@ public class ZakaznikDTO implements Serializable {
 	public ZakaznikDTO() {
 	}
 
+	public ZakaznikDTO(List<ZakaznikEntity> zakaznici) {
+		this.zakaznici = zakaznici;
+	}
+
 	private List<ZakaznikEntity> zakaznici = new ArrayList<>();
 
 	public List<ZakaznikEntity> getZakaznici() {
