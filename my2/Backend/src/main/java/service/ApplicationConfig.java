@@ -21,6 +21,7 @@ public class ApplicationConfig extends Application {
 	private void addRestResourceClasses(Set<Class<?>> resources) {
 		resources.add(service.KlecEntityFacadeREST.class);
 		resources.add(service.ObjednavkaEntityFacadeREST.class);
+		resources.add(service.UklidEntityFacadeREST.class);
 		resources.add(service.ZakaznikEntityFacadeREST.class);
 		resources.add(service.ZamestnanecEntityFacadeREST.class);
 	}

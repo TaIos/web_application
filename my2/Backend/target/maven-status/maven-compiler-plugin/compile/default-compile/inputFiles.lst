@@ -2,5 +2,6 @@
 /home/slarty/tjv_semestralka/my2/Backend/src/main/java/service/KlecEntityFacadeREST.java
 /home/slarty/tjv_semestralka/my2/Backend/src/main/java/service/ZakaznikEntityFacadeREST.java
 /home/slarty/tjv_semestralka/my2/Backend/src/main/java/service/ObjednavkaEntityFacadeREST.java
+/home/slarty/tjv_semestralka/my2/Backend/src/main/java/service/UklidEntityFacadeREST.java
 /home/slarty/tjv_semestralka/my2/Backend/src/main/java/service/ApplicationConfig.java
 /home/slarty/tjv_semestralka/my2/Backend/src/main/java/service/ZamestnanecEntityFacadeREST.java
