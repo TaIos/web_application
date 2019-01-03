@@ -8,14 +8,14 @@ import entity.KlecEntity;
 
 public class KlecDTO implements Serializable {
 
+	private List<KlecEntity> klece = new ArrayList<>();
+
 	public KlecDTO(List<KlecEntity> klece) {
 		this.klece = klece;
 	}
 
 	public KlecDTO() {
 	}
-
-	private List<KlecEntity> klece = new ArrayList<>();
 
 	public List<KlecEntity> getKlece() {
 		return klece;

@@ -2,12 +2,16 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class UklidKey implements Serializable {
 
+	@Column(name = "ZAM_ID")
 	private Integer zam_id;
+
+	@Column(name = "KLEC_ID")
 	private Integer klec_id;
 
 	public UklidKey() {

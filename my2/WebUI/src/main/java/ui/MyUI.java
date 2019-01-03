@@ -2,10 +2,9 @@ package ui;
 
 import clients.KlecJerseyClient;
 import clients.ObjednavkyJerseyClient;
+import clients.UklidJerseyClient;
 import clients.ZakaznikJerseyClient;
 import clients.ZamestnanecJerseyClient;
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -16,27 +15,21 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import dto.KlecDTO;
 import dto.ObjednavkaDTO;
+import dto.UklidDTO;
 import dto.ZakaznikDTO;
 import dto.ZamestnanecDTO;
-import elemental.json.JsonArray;
 import entity.KlecEntity;
 import entity.ObjednavkaEntity;
+import entity.UklidEntity;
 import entity.ZakaznikEntity;
 import entity.ZamestnanecEntity;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import javafx.util.Pair;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-import other.Uklid;
+import javax.servlet.annotation.WebServlet;
 
 @Theme("mytheme")
 public class MyUI extends UI {
@@ -48,12 +41,13 @@ public class MyUI extends UI {
 	private List<ObjednavkaEntity> objednavkyData;
 	private List<ZakaznikEntity> zakazniciData;
 	private List<ZamestnanecEntity> zamestnanciData;
-	private List<Uklid> uklid;
+	private List<UklidEntity> uklidData;
 
 	KlecJerseyClient klecJerseyClient;
 	ObjednavkyJerseyClient objednavkyJerseyClient;
 	ZakaznikJerseyClient zakaznikJerseyClient;
 	ZamestnanecJerseyClient zamestnanecJerseyClient;
+	UklidJerseyClient uklidJerseyClient;
 
 	VerticalLayout defaultLayout;
 	GridLayout klecLayout;
@@ -67,25 +61,19 @@ public class MyUI extends UI {
 		objednavkyJerseyClient = new ObjednavkyJerseyClient();
 		zakaznikJerseyClient = new ZakaznikJerseyClient();
 		zamestnanecJerseyClient = new ZamestnanecJerseyClient();
+		uklidJerseyClient = new UklidJerseyClient();
 
 		KlecDTO klecDTO = klecJerseyClient.findAllKlece_JSON(KlecDTO.class);
 		ObjednavkaDTO objednavkaDTO = objednavkyJerseyClient.findAllObjednavky_JSON(ObjednavkaDTO.class);
 		ZakaznikDTO zakaznikDTO = zakaznikJerseyClient.findAllZakazniky_JSON(ZakaznikDTO.class);
 		ZamestnanecDTO zamestnanecDTO = zamestnanecJerseyClient.findAllZamestnance_JSON(ZamestnanecDTO.class);
+		UklidDTO uklidDTO = uklidJerseyClient.findAllUklidy_JSON(UklidDTO.class);
 
 		kleceData = klecDTO.getKlece();
 		objednavkyData = objednavkaDTO.getObjednavky();
 		zakazniciData = zakaznikDTO.getZakaznici();
 		zamestnanciData = zamestnanecDTO.getZamestnanci();
-
-		uklid = new ArrayList<>();
-		for (ZamestnanecEntity z : zamestnanciData) {
-			cnt++;
-			for (KlecEntity k : z.getUkliziKlece()) {
-				uklid.add(new Uklid(z, k));
-				added++;
-			}
-		}
+		uklidData = uklidDTO.getUklid();
 	}
 
 	private void initLayouts() {
@@ -335,8 +323,8 @@ public class MyUI extends UI {
 		int x = 1;
 		int y = 1;
 
-		Grid<Uklid> gridUklid = new Grid<>(Uklid.class);
-		gridUklid.setItems(uklid);
+		Grid<UklidEntity> gridUklid = new Grid<>(UklidEntity.class);
+		gridUklid.setItems(uklidData);
 		uklidLayout.addComponent(gridUklid, x, y);
 		uklidLayout.setComponentAlignment(gridUklid, Alignment.TOP_CENTER);
 	}
@@ -348,6 +336,7 @@ public class MyUI extends UI {
 			fetchData();
 		} catch (Exception e) {
 			Label error = new Label(e.toString());
+			defaultLayout = new VerticalLayout();
 			defaultLayout.addComponent(error);
 			setContent(defaultLayout);
 			return;
@@ -356,9 +345,9 @@ public class MyUI extends UI {
 		initLayouts();
 		setContent(klecLayout);
 
-		Label error = new Label("size=" + uklid.size() + ", cnt=" + cnt + ", added=" + added);
-		defaultLayout.addComponent(error);
-		setContent(defaultLayout);
+		//Label error = new Label("size=" + uklid.size() + ", cnt=" + cnt + ", added=" + added);
+		//defaultLayout.addComponent(error);
+		//setContent(defaultLayout);
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
