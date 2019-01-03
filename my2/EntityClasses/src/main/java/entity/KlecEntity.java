@@ -24,7 +24,7 @@ public class KlecEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "klec_gen")
 	@SequenceGenerator(name = "klec_gen", sequenceName = "KLEC_KLEC_ID_SEQ", allocationSize = 1)
 	@Column(name = "KLEC_ID")
-	private Long id;
+	private Integer id;
 
 	@Column(name = "POCET_TUKANU")
 	private Integer pocetTukanu;
@@ -39,12 +39,21 @@ public class KlecEntity implements Serializable {
 	private Integer prohlidkaId;
 
 	@ManyToMany(mappedBy = "ukliziKlece")
-	private Collection<ZamestnanecEntity> jeUklizena = new ArrayList<ZamestnanecEntity>();
+	private Collection<ZamestnanecEntity> jeUklizena = new ArrayList<>();
 
 	public KlecEntity() {
 	}
 
-	public KlecEntity(Long id, Integer pocetTukanu, Double velikostKleceM3, String vybaveni, Integer prohlidkaId) {
+	public KlecEntity(Integer id, Integer pocetTukanu, Double velikostKleceM3, String vybaveni, Integer prohlidkaId, Collection<ZamestnanecEntity> jeUklizena) {
+		this.id = id;
+		this.pocetTukanu = pocetTukanu;
+		this.velikostKleceM3 = velikostKleceM3;
+		this.vybaveni = vybaveni;
+		this.prohlidkaId = prohlidkaId;
+		this.jeUklizena = jeUklizena;
+	}
+
+	public KlecEntity(Integer id, Integer pocetTukanu, Double velikostKleceM3, String vybaveni, Integer prohlidkaId) {
 		this.id = id;
 		this.pocetTukanu = pocetTukanu;
 		this.velikostKleceM3 = velikostKleceM3;
@@ -94,11 +103,11 @@ public class KlecEntity implements Serializable {
 		this.vybaveni = vybaveni;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

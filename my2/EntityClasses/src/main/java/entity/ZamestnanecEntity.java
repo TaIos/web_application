@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class ZamestnanecEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zamestnanec_gen")
 	@SequenceGenerator(name = "zamestnanec_gen", sequenceName = "ZAKAZNIK_ID_ZAK_SEQ", allocationSize = 1)
 	@Column(name = "ZAM_ID")
-	private Long id;
+	private Integer id;
 
 	@Column(name = "JMENO")
 	private String jmeno;
@@ -49,18 +50,30 @@ public class ZamestnanecEntity implements Serializable {
 	@Column(name = "PROHLIDKA_ID")
 	private Integer prohlidkaId;
 
-	@ManyToMany()
+	@ManyToMany
 	@JoinTable(
 		name = "UKLID",
 		joinColumns = @JoinColumn(name = "ZAM_ID", referencedColumnName = "ZAM_ID"),
 		inverseJoinColumns = @JoinColumn(name = "KLEC_ID", referencedColumnName = "KLEC_ID")
 	)
-	private Collection<KlecEntity> ukliziKlece = new ArrayList<>();
+	private Collection<KlecEntity> ukliziKlece = new ArrayList<KlecEntity>();
 
 	public ZamestnanecEntity() {
 	}
 
-	public ZamestnanecEntity(Long id, String jmeno, String prijmeni, String adresa, Integer rodneCislo, String prezdivka, Integer pozice_id, Integer prohlidkaId) {
+	public ZamestnanecEntity(Integer id, String jmeno, String prijmeni, String adresa, Integer rodneCislo, String prezdivka, Integer pozice_id, Integer prohlidkaId, Collection<KlecEntity> ukliziKlece) {
+		this.id = id;
+		this.jmeno = jmeno;
+		this.prijmeni = prijmeni;
+		this.adresa = adresa;
+		this.rodneCislo = rodneCislo;
+		this.prezdivka = prezdivka;
+		this.pozice_id = pozice_id;
+		this.prohlidkaId = prohlidkaId;
+		this.ukliziKlece = ukliziKlece;
+	}
+
+	public ZamestnanecEntity(Integer id, String jmeno, String prijmeni, String adresa, Integer rodneCislo, String prezdivka, Integer pozice_id, Integer prohlidkaId) {
 		this.id = id;
 		this.jmeno = jmeno;
 		this.prijmeni = prijmeni;
@@ -141,11 +154,11 @@ public class ZamestnanecEntity implements Serializable {
 		this.prezdivka = prezdivka;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

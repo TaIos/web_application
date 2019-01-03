@@ -26,7 +26,7 @@ public class ZakaznikEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zakaznik_gen")
 	@SequenceGenerator(name = "zakaznik_gen", sequenceName = "ZAKAZNIK_ID_ZAK_SEQ", allocationSize = 1)
 	@Column(name = "ID_ZAK")
-	private Long id;
+	private Integer id;
 
 	@Column(name = "JMENO")
 	private String jmeno;
@@ -47,7 +47,16 @@ public class ZakaznikEntity implements Serializable {
 	public ZakaznikEntity() {
 	}
 
-	public ZakaznikEntity(Long id, String jmeno, String prijmeni, String dorucovaciAdresa, String email) {
+	public ZakaznikEntity(Integer id, String jmeno, String prijmeni, String dorucovaciAdresa, String email, Collection<ObjednavkaEntity> objednavky) {
+		this.id = id;
+		this.jmeno = jmeno;
+		this.prijmeni = prijmeni;
+		this.dorucovaciAdresa = dorucovaciAdresa;
+		this.email = email;
+		this.objednavky = objednavky;
+	}
+
+	public ZakaznikEntity(Integer id, String jmeno, String prijmeni, String dorucovaciAdresa, String email) {
 		this.id = id;
 		this.jmeno = jmeno;
 		this.prijmeni = prijmeni;
@@ -65,7 +74,7 @@ public class ZakaznikEntity implements Serializable {
 		return objednavky;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -101,7 +110,7 @@ public class ZakaznikEntity implements Serializable {
 		this.email = email;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

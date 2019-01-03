@@ -33,25 +33,22 @@ import entity.ZamestnanecEntity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javafx.util.Pair;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+import other.Uklid;
 
-/**
- * This UI is the application entry point. A UI may either represent a browser
- * window (or tab) or some part of an HTML page where a Vaadin application is
- * embedded.
- * <p>
- * The UI is initialized using {@link #init(VaadinRequest)}. This method is
- * intended to be overridden to add component to the user interface and
- * initialize non-component functionality.
- */
 @Theme("mytheme")
 public class MyUI extends UI {
+
+	int cnt = 0;
+	int added = 0;
 
 	private List<KlecEntity> kleceData;
 	private List<ObjednavkaEntity> objednavkyData;
 	private List<ZakaznikEntity> zakazniciData;
 	private List<ZamestnanecEntity> zamestnanciData;
+	private List<Uklid> uklid;
 
 	KlecJerseyClient klecJerseyClient;
 	ObjednavkyJerseyClient objednavkyJerseyClient;
@@ -63,6 +60,7 @@ public class MyUI extends UI {
 	GridLayout objednavkaLayout;
 	GridLayout zakaznikLayout;
 	GridLayout zamestnanecLayout;
+	GridLayout uklidLayout;
 
 	private void fetchData() throws Exception {
 		klecJerseyClient = new KlecJerseyClient();
@@ -79,6 +77,15 @@ public class MyUI extends UI {
 		objednavkyData = objednavkaDTO.getObjednavky();
 		zakazniciData = zakaznikDTO.getZakaznici();
 		zamestnanciData = zamestnanecDTO.getZamestnanci();
+
+		uklid = new ArrayList<>();
+		for (ZamestnanecEntity z : zamestnanciData) {
+			cnt++;
+			for (KlecEntity k : z.getUkliziKlece()) {
+				uklid.add(new Uklid(z, k));
+				added++;
+			}
+		}
 	}
 
 	private void initLayouts() {
@@ -110,9 +117,14 @@ public class MyUI extends UI {
 		zamestnanecLayout.setSizeFull();
 		zamestnanecLayout.setVisible(visibility);
 
+		uklidLayout = new GridLayout(w, h);
+		uklidLayout.setSizeFull();
+		uklidLayout.setVisible(visibility);
+
 		defaultLayout = new VerticalLayout();
 		defaultLayout.setSizeFull();
 		defaultLayout.setVisible(visibility);
+
 	}
 
 	private void addHeadings() {
@@ -138,6 +150,11 @@ public class MyUI extends UI {
 		headZamestnanec.addStyleName(ValoTheme.LABEL_H1);
 		zamestnanecLayout.addComponent(headZamestnanec, x, y);
 		zamestnanecLayout.setComponentAlignment(headZamestnanec, Alignment.TOP_CENTER);
+
+		final Label headUklid = new Label("Uklid");
+		headUklid.addStyleName(ValoTheme.LABEL_H1);
+		uklidLayout.addComponent(headUklid, x, y);
+		uklidLayout.setComponentAlignment(headUklid, Alignment.TOP_CENTER);
 	}
 
 	private void addSwitchButtons() {
@@ -153,6 +170,9 @@ public class MyUI extends UI {
 		Button buttonZamestnanec1 = new Button("Zamestnanci", e -> {
 			setContent(zamestnanecLayout);
 		});
+		Button buttonUklid1 = new Button("Uklid", e -> {
+			setContent(uklidLayout);
+		});
 
 		Button buttonKlec2 = new Button("Klece", e -> {
 			setContent(klecLayout);
@@ -165,6 +185,9 @@ public class MyUI extends UI {
 		});
 		Button buttonZamestnanec2 = new Button("Zamestnanci", e -> {
 			setContent(zamestnanecLayout);
+		});
+		Button buttonUklid2 = new Button("Uklid", e -> {
+			setContent(uklidLayout);
 		});
 
 		Button buttonKlec3 = new Button("Klece", e -> {
@@ -179,6 +202,9 @@ public class MyUI extends UI {
 		Button buttonZamestnanec3 = new Button("Zamestnanci", e -> {
 			setContent(zamestnanecLayout);
 		});
+		Button buttonUklid3 = new Button("Uklid", e -> {
+			setContent(uklidLayout);
+		});
 
 		Button buttonKlec4 = new Button("Klece", e -> {
 			setContent(klecLayout);
@@ -192,22 +218,45 @@ public class MyUI extends UI {
 		Button buttonZamestnanec4 = new Button("Zamestnanci", e -> {
 			setContent(zamestnanecLayout);
 		});
+		Button buttonUklid4 = new Button("Uklid", e -> {
+			setContent(uklidLayout);
+		});
+
+		Button buttonKlec5 = new Button("Klece", e -> {
+			setContent(klecLayout);
+		});
+		Button buttonObjednavky5 = new Button("Objednavky", e -> {
+			setContent(objednavkaLayout);
+		});
+		Button buttonZakaznik5 = new Button("Zakaznici", e -> {
+			setContent(zakaznikLayout);
+		});
+		Button buttonZamestnanec5 = new Button("Zamestnanci", e -> {
+			setContent(zamestnanecLayout);
+		});
+		Button buttonUklid5 = new Button("Uklid", e -> {
+			setContent(uklidLayout);
+		});
 
 		HorizontalLayout switchButtons1 = new HorizontalLayout();
-		switchButtons1.addComponents(buttonKlec1, buttonObjednavky1, buttonZakaznik1, buttonZamestnanec1);
+		switchButtons1.addComponents(buttonKlec1, buttonObjednavky1, buttonZakaznik1, buttonZamestnanec1, buttonUklid1);
 		switchButtons1.setVisible(true);
 
 		HorizontalLayout switchButtons2 = new HorizontalLayout();
-		switchButtons2.addComponents(buttonKlec2, buttonObjednavky2, buttonZakaznik2, buttonZamestnanec2);
+		switchButtons2.addComponents(buttonKlec2, buttonObjednavky2, buttonZakaznik2, buttonZamestnanec2, buttonUklid2);
 		switchButtons2.setVisible(true);
 
 		HorizontalLayout switchButtons3 = new HorizontalLayout();
-		switchButtons3.addComponents(buttonKlec3, buttonObjednavky3, buttonZakaznik3, buttonZamestnanec3);
+		switchButtons3.addComponents(buttonKlec3, buttonObjednavky3, buttonZakaznik3, buttonZamestnanec3, buttonUklid3);
 		switchButtons3.setVisible(true);
 
 		HorizontalLayout switchButtons4 = new HorizontalLayout();
-		switchButtons4.addComponents(buttonKlec4, buttonObjednavky4, buttonZakaznik4, buttonZamestnanec4);
+		switchButtons4.addComponents(buttonKlec4, buttonObjednavky4, buttonZakaznik4, buttonZamestnanec4, buttonUklid4);
 		switchButtons4.setVisible(true);
+
+		HorizontalLayout switchButtons5 = new HorizontalLayout();
+		switchButtons5.addComponents(buttonKlec5, buttonObjednavky5, buttonZakaznik5, buttonZamestnanec5, buttonUklid5);
+		switchButtons5.setVisible(true);
 
 		int x = 0;
 		int y = 0;
@@ -215,17 +264,20 @@ public class MyUI extends UI {
 		objednavkaLayout.addComponent(switchButtons2, x, y);
 		zakaznikLayout.addComponent(switchButtons3, x, y);
 		zamestnanecLayout.addComponent(switchButtons4, x, y);
+		uklidLayout.addComponent(switchButtons5, x, y);
 	}
 
+	// TODO
 	private void setSizes() {
 		int x = 1;
 		int y = 5;
 
+		/*
 		klecLayout.setColumnExpandRatio(0, x);
 		klecLayout.setColumnExpandRatio(1, y);
 		klecLayout.setRowExpandRatio(0, 1);
 		klecLayout.setRowExpandRatio(1, 10);
-
+		 */
 	}
 
 	private void addDataGrids() {
@@ -233,14 +285,16 @@ public class MyUI extends UI {
 		addObjednavkyData();
 		addZakaznikData();
 		addZamestnanecData();
+		addUklidData();
 	}
 
 	private void addKlecData() {
-		int x = 1;
-		int y = 1;
 
 		Grid<KlecEntity> gridKlec = new Grid<>(KlecEntity.class);
 		gridKlec.setItems(kleceData);
+
+		int x = 1;
+		int y = 1;
 		klecLayout.addComponent(gridKlec, x, y);
 		klecLayout.setComponentAlignment(gridKlec, Alignment.TOP_CENTER);
 	}
@@ -275,7 +329,16 @@ public class MyUI extends UI {
 		gridZamestnanec.setItems(zamestnanciData);
 		zamestnanecLayout.addComponent(gridZamestnanec, x, y);
 		zamestnanecLayout.setComponentAlignment(gridZamestnanec, Alignment.TOP_CENTER);
+	}
 
+	private void addUklidData() {
+		int x = 1;
+		int y = 1;
+
+		Grid<Uklid> gridUklid = new Grid<>(Uklid.class);
+		gridUklid.setItems(uklid);
+		uklidLayout.addComponent(gridUklid, x, y);
+		uklidLayout.setComponentAlignment(gridUklid, Alignment.TOP_CENTER);
 	}
 
 	@Override
@@ -292,6 +355,10 @@ public class MyUI extends UI {
 
 		initLayouts();
 		setContent(klecLayout);
+
+		Label error = new Label("size=" + uklid.size() + ", cnt=" + cnt + ", added=" + added);
+		defaultLayout.addComponent(error);
+		setContent(defaultLayout);
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

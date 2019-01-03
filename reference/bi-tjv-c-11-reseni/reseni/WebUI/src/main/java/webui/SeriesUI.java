@@ -1,4 +1,4 @@
-package cz.cvut.fit.tjv.cv.tvseries.webui;
+package webui;
 
 import javax.servlet.annotation.WebServlet;
 
