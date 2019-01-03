@@ -1,5 +1,6 @@
 package ui;
 
+import org.apache.commons.lang3.StringUtils;
 import clients.KlecJerseyClient;
 import clients.ObjednavkyJerseyClient;
 import clients.UklidJerseyClient;
@@ -17,6 +18,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 import dto.KlecDTO;
 import dto.ObjednavkaDTO;
@@ -28,6 +30,9 @@ import entity.ObjednavkaEntity;
 import entity.UklidEntity;
 import entity.ZakaznikEntity;
 import entity.ZamestnanecEntity;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 
@@ -300,7 +305,12 @@ public class MyUI extends UI {
 		gridObjednavky.setItems(objednavkyData);
 		gridObjednavky.removeAllColumns();
 		gridObjednavky.addColumn(ObjednavkaEntity::getId).setCaption("Cislo objednavky");
-		gridObjednavky.addColumn(ObjednavkaEntity::getIdZak).setCaption("Cislo zakaznika");
+
+		gridObjednavky.addColumn(o -> {
+			ZakaznikEntity z = findZak(o.getIdZak());
+			return z.getJmeno() + " " + z.getPrijmeni();
+		}).setCaption("Jmeno zakaznika");
+
 		gridObjednavky.addColumn(ObjednavkaEntity::getIdTukan).setCaption("Cislo tukana");
 		gridObjednavky.addColumn(ObjednavkaEntity::getDatumVytvoreni).setCaption("Datum vytvoreni");
 		gridObjednavky.addColumn(ObjednavkaEntity::getTypDopravy).setCaption("Typ dopravy");
@@ -321,7 +331,12 @@ public class MyUI extends UI {
 		gridZakaznici.addColumn(ZakaznikEntity::getId).setCaption("Cislo zakaznika");
 		gridZakaznici.addColumn(ZakaznikEntity::getDorucovaciAdresa).setCaption("Bydliste");
 		gridZakaznici.addColumn(ZakaznikEntity::getEmail).setCaption("email");
-		gridZakaznici.addColumn(ZakaznikEntity::getObjednavky).setCaption("Cisla objednavek");
+
+		gridZakaznici.addColumn(z -> {
+
+			return StringUtils.join(getObjednavky(z), ",");
+		}
+		).setCaption("Cisla objednavek");
 
 		zakaznikLayout.addComponent(gridZakaznici, x, y);
 		zakaznikLayout.setComponentAlignment(gridZakaznici, Alignment.TOP_CENTER);
@@ -373,6 +388,26 @@ public class MyUI extends UI {
 			}
 		}
 		return null;
+	}
+
+	private ZakaznikEntity findZak(int id) {
+		for (ZakaznikEntity z : zakazniciData) {
+			if (z.getId().equals(id)) {
+				return z;
+			}
+		}
+		return null;
+	}
+
+	private List<Integer> getObjednavky(ZakaznikEntity z) {
+		ArrayList<Integer> obj = new ArrayList();
+		int id = z.getId();
+		for (ObjednavkaEntity o : objednavkyData) {
+			if (o.getIdZak().equals(id)) {
+				obj.add(o.getId());
+			}
+		}
+		return obj;
 	}
 
 	@Override
