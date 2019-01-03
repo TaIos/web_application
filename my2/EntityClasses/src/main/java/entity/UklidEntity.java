@@ -30,6 +30,14 @@ public class UklidEntity implements Serializable {
 		this.id = id;
 	}
 
+	public int getZamestnanecID() {
+		return id.getZam_id();
+	}
+
+	public int getKlecID() {
+		return id.getKlec_id();
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = 3;

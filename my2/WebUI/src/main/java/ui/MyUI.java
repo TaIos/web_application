@@ -280,6 +280,11 @@ public class MyUI extends UI {
 
 		Grid<KlecEntity> gridKlec = new Grid<>(KlecEntity.class);
 		gridKlec.setItems(kleceData);
+		gridKlec.removeAllColumns();
+		gridKlec.addColumn(KlecEntity::getPocetTukanu).setCaption("Pocet tukanu");
+		gridKlec.addColumn(KlecEntity::getVelikostKleceM3).setCaption("Velikost v m3");
+		gridKlec.addColumn(KlecEntity::getVybaveni).setCaption("Vybaveni");
+		gridKlec.addColumn(KlecEntity::getId).setCaption("Cislo klece");
 
 		int x = 1;
 		int y = 1;
@@ -293,9 +298,15 @@ public class MyUI extends UI {
 
 		Grid<ObjednavkaEntity> gridObjednavky = new Grid<>(ObjednavkaEntity.class);
 		gridObjednavky.setItems(objednavkyData);
+		gridObjednavky.removeAllColumns();
+		gridObjednavky.addColumn(ObjednavkaEntity::getId).setCaption("Cislo objednavky");
+		gridObjednavky.addColumn(ObjednavkaEntity::getIdZak).setCaption("Cislo zakaznika");
+		gridObjednavky.addColumn(ObjednavkaEntity::getIdTukan).setCaption("Cislo tukana");
+		gridObjednavky.addColumn(ObjednavkaEntity::getDatumVytvoreni).setCaption("Datum vytvoreni");
+		gridObjednavky.addColumn(ObjednavkaEntity::getTypDopravy).setCaption("Typ dopravy");
+
 		objednavkaLayout.addComponent(gridObjednavky, x, y);
 		objednavkaLayout.setComponentAlignment(gridObjednavky, Alignment.TOP_CENTER);
-
 	}
 
 	private void addZakaznikData() {
@@ -304,6 +315,14 @@ public class MyUI extends UI {
 
 		Grid<ZakaznikEntity> gridZakaznici = new Grid<>(ZakaznikEntity.class);
 		gridZakaznici.setItems(zakazniciData);
+		gridZakaznici.removeAllColumns();
+		gridZakaznici.addColumn(ZakaznikEntity::getJmeno).setCaption("Jmeno");
+		gridZakaznici.addColumn(ZakaznikEntity::getPrijmeni).setCaption("Prijmeni");
+		gridZakaznici.addColumn(ZakaznikEntity::getId).setCaption("Cislo zakaznika");
+		gridZakaznici.addColumn(ZakaznikEntity::getDorucovaciAdresa).setCaption("Bydliste");
+		gridZakaznici.addColumn(ZakaznikEntity::getEmail).setCaption("email");
+		gridZakaznici.addColumn(ZakaznikEntity::getObjednavky).setCaption("Cisla objednavek");
+
 		zakaznikLayout.addComponent(gridZakaznici, x, y);
 		zakaznikLayout.setComponentAlignment(gridZakaznici, Alignment.TOP_CENTER);
 
@@ -315,6 +334,14 @@ public class MyUI extends UI {
 
 		Grid<ZamestnanecEntity> gridZamestnanec = new Grid<>(ZamestnanecEntity.class);
 		gridZamestnanec.setItems(zamestnanciData);
+		gridZamestnanec.removeAllColumns();
+		gridZamestnanec.addColumn(ZamestnanecEntity::getJmeno).setCaption("Jmeno");
+		gridZamestnanec.addColumn(ZamestnanecEntity::getPrijmeni).setCaption("Prijmeni");
+		gridZamestnanec.addColumn(ZamestnanecEntity::getId).setCaption("Cislo zamestnance");
+		gridZamestnanec.addColumn(ZamestnanecEntity::getAdresa).setCaption("Bydliste");
+		gridZamestnanec.addColumn(ZamestnanecEntity::getRodneCislo).setCaption("Rodne cislo");
+		gridZamestnanec.addColumn(ZamestnanecEntity::getPozice_id).setCaption("Cislo pozice");
+
 		zamestnanecLayout.addComponent(gridZamestnanec, x, y);
 		zamestnanecLayout.setComponentAlignment(gridZamestnanec, Alignment.TOP_CENTER);
 	}
@@ -325,8 +352,27 @@ public class MyUI extends UI {
 
 		Grid<UklidEntity> gridUklid = new Grid<>(UklidEntity.class);
 		gridUklid.setItems(uklidData);
+		gridUklid.removeAllColumns();
+
+		gridUklid.addColumn(
+			e -> {
+				ZamestnanecEntity z = findZam(e.getZamestnanecID());
+				return z.getJmeno() + " " + z.getPrijmeni();
+			}
+		).setCaption("Jmeno zamestnance");
+
+		gridUklid.addColumn(UklidEntity::getKlecID).setCaption("Cislo klece");
 		uklidLayout.addComponent(gridUklid, x, y);
 		uklidLayout.setComponentAlignment(gridUklid, Alignment.TOP_CENTER);
+	}
+
+	private ZamestnanecEntity findZam(int id) {
+		for (ZamestnanecEntity z : zamestnanciData) {
+			if (z.getId().equals(id)) {
+				return z;
+			}
+		}
+		return null;
 	}
 
 	@Override
