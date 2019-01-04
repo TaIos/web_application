@@ -267,7 +267,7 @@ public class MyUI extends UI {
 		uklidLayout.addComponent(switchButtons5);
 	}
 
-	private void refreshGrids() {
+	public void refreshGrids() {
 		gridKlec.setItems(kleceData);
 		gridObjednavky.setItems(objednavkyData);
 		gridZakaznici.setItems(zakazniciData);
@@ -290,7 +290,7 @@ public class MyUI extends UI {
 		gridKlec.setSizeFull();
 		createKlecGridColumns();
 
-		KlecForm klecForm = new KlecForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, klecJerseyClient, this);
+		KlecForm klecForm = new KlecForm(kleceData, objednavkyData, zakazniciData, zamestnanciData, uklidData, klecJerseyClient, this);
 
 		hl.addComponents(gridKlec, klecForm);
 		hl.setExpandRatio(gridKlec, 10);
@@ -364,7 +364,7 @@ public class MyUI extends UI {
 		gridObjednavky.setSizeFull();
 		createObjednavkaGridColumns();
 
-		ObjednavkaForm objednavkaForm = new ObjednavkaForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, objednavkyJerseyClient, this);
+		ObjednavkaForm objednavkaForm = new ObjednavkaForm(kleceData, objednavkyData, zakazniciData, zamestnanciData, uklidData, objednavkyJerseyClient, this);
 
 		hl.addComponents(gridObjednavky, objednavkaForm);
 		hl.setExpandRatio(gridObjednavky, 10);
@@ -419,7 +419,7 @@ public class MyUI extends UI {
 		gridZakaznici.setSizeFull();
 		createZakaznikGridColumns();
 
-		ZakaznikForm zakaznikForm = new ZakaznikForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, zakaznikJerseyClient, this);
+		ZakaznikForm zakaznikForm = new ZakaznikForm(kleceData, objednavkyData, zakazniciData, zamestnanciData, uklidData, zakaznikJerseyClient, this);
 
 		hl.addComponents(gridZakaznici, zakaznikForm);
 		hl.setExpandRatio(gridZakaznici, 10);
@@ -478,7 +478,7 @@ public class MyUI extends UI {
 		gridZamestnanec.setSizeFull();
 		createZamestnanecGridColumns();
 
-		ZamestnanecForm zamestnanecForm = new ZamestnanecForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, zamestnanecJerseyClient, this);
+		ZamestnanecForm zamestnanecForm = new ZamestnanecForm(kleceData, objednavkyData, zakazniciData, zamestnanciData, uklidData, zamestnanecJerseyClient, this);
 
 		hl.addComponents(gridZamestnanec, zamestnanecForm);
 		hl.setExpandRatio(gridZamestnanec, 10);
@@ -542,7 +542,7 @@ public class MyUI extends UI {
 		gridUklid.setSizeFull();
 		createUklidGridColumns();
 
-		UklidForm uklidForm = new UklidForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, uklidJerseyClient, this);
+		UklidForm uklidForm = new UklidForm(kleceData, objednavkyData, zakazniciData, zamestnanciData, uklidData, uklidJerseyClient, this);
 
 		hl.addComponents(gridUklid, uklidForm);
 		hl.setExpandRatio(gridUklid, 10);
@@ -615,6 +615,26 @@ public class MyUI extends UI {
 			}
 		}
 		return obj;
+	}
+
+	public void setKleceData(List<KlecEntity> kleceData) {
+		this.kleceData = kleceData;
+	}
+
+	public void setObjednavkyData(List<ObjednavkaEntity> objednavkyData) {
+		this.objednavkyData = objednavkyData;
+	}
+
+	public void setZakazniciData(List<ZakaznikEntity> zakazniciData) {
+		this.zakazniciData = zakazniciData;
+	}
+
+	public void setZamestnanciData(List<ZamestnanecEntity> zamestnanciData) {
+		this.zamestnanciData = zamestnanciData;
+	}
+
+	public void setUklidData(List<UklidEntity> uklidData) {
+		this.uklidData = uklidData;
 	}
 
 	@Override

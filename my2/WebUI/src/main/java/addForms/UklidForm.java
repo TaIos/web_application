@@ -12,15 +12,16 @@ import entity.ObjednavkaEntity;
 import entity.UklidEntity;
 import entity.ZakaznikEntity;
 import entity.ZamestnanecEntity;
+import java.util.List;
 import ui.MyUI;
 
 public class UklidForm extends FormLayout {
 
-	Grid<KlecEntity> gridKlec;
-	Grid<ObjednavkaEntity> gridObjednavky;
-	Grid<ZakaznikEntity> gridZakaznici;
-	Grid<ZamestnanecEntity> gridZamestnanec;
-	Grid<UklidEntity> gridUklid;
+	private List<KlecEntity> kleceData;
+	private List<ObjednavkaEntity> objednavkyData;
+	private List<ZakaznikEntity> zakazniciData;
+	private List<ZamestnanecEntity> zamestnanciData;
+	private List<UklidEntity> uklidData;
 
 	private TextField cisloZakaznika = new TextField("Cislo zamestnance");
 	private TextField cisloKlece = new TextField("Cislo klece");
@@ -30,16 +31,15 @@ public class UklidForm extends FormLayout {
 	private UklidJerseyClient client;
 	private MyUI myUI;
 
-	public UklidForm(Grid<KlecEntity> gridKlec, Grid<ObjednavkaEntity> gridObjednavky, Grid<ZakaznikEntity> gridZakaznici, Grid<ZamestnanecEntity> gridZamestnanec, Grid<UklidEntity> gridUklid, UklidJerseyClient client, MyUI myUI) {
-		this.gridKlec = gridKlec;
-		this.gridObjednavky = gridObjednavky;
-		this.gridZakaznici = gridZakaznici;
-		this.gridZamestnanec = gridZamestnanec;
-		this.gridUklid = gridUklid;
+	public UklidForm(List<KlecEntity> kleceData, List<ObjednavkaEntity> objednavkyData, List<ZakaznikEntity> zakazniciData, List<ZamestnanecEntity> zamestnanciData, List<UklidEntity> uklidData, UklidJerseyClient client, MyUI myUI) {
+		this.kleceData = kleceData;
+		this.objednavkyData = objednavkyData;
+		this.zakazniciData = zakazniciData;
+		this.zamestnanciData = zamestnanciData;
+		this.uklidData = uklidData;
 		this.client = client;
 		this.myUI = myUI;
 		addComponents(cisloZakaznika, cisloKlece, save);
 		setSizeUndefined();
 	}
-
 }
