@@ -290,7 +290,7 @@ public class MyUI extends UI {
 		gridKlec.setSizeFull();
 		createKlecGridColumns();
 
-		KlecForm klecForm = new KlecForm(this, klecJerseyClient);
+		KlecForm klecForm = new KlecForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, klecJerseyClient, this);
 
 		hl.addComponents(gridKlec, klecForm);
 		hl.setExpandRatio(gridKlec, 10);
@@ -364,7 +364,7 @@ public class MyUI extends UI {
 		gridObjednavky.setSizeFull();
 		createObjednavkaGridColumns();
 
-		ObjednavkaForm objednavkaForm = new ObjednavkaForm(objednavkyJerseyClient, this);
+		ObjednavkaForm objednavkaForm = new ObjednavkaForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, objednavkyJerseyClient, this);
 
 		hl.addComponents(gridObjednavky, objednavkaForm);
 		hl.setExpandRatio(gridObjednavky, 10);
@@ -419,7 +419,7 @@ public class MyUI extends UI {
 		gridZakaznici.setSizeFull();
 		createZakaznikGridColumns();
 
-		ZakaznikForm zakaznikForm = new ZakaznikForm(zakaznikJerseyClient, this);
+		ZakaznikForm zakaznikForm = new ZakaznikForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, zakaznikJerseyClient, this);
 
 		hl.addComponents(gridZakaznici, zakaznikForm);
 		hl.setExpandRatio(gridZakaznici, 10);
@@ -478,7 +478,7 @@ public class MyUI extends UI {
 		gridZamestnanec.setSizeFull();
 		createZamestnanecGridColumns();
 
-		ZamestnanecForm zamestnanecForm = new ZamestnanecForm(zamestnanecJerseyClient, this);
+		ZamestnanecForm zamestnanecForm = new ZamestnanecForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, zamestnanecJerseyClient, this);
 
 		hl.addComponents(gridZamestnanec, zamestnanecForm);
 		hl.setExpandRatio(gridZamestnanec, 10);
@@ -542,7 +542,7 @@ public class MyUI extends UI {
 		gridUklid.setSizeFull();
 		createUklidGridColumns();
 
-		UklidForm uklidForm = new UklidForm(uklidJerseyClient, this);
+		UklidForm uklidForm = new UklidForm(gridKlec, gridObjednavky, gridZakaznici, gridZamestnanec, gridUklid, uklidJerseyClient, this);
 
 		hl.addComponents(gridUklid, uklidForm);
 		hl.setExpandRatio(gridUklid, 10);
