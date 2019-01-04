@@ -1,10 +1,10 @@
 package ui;
 
-import addForms.KlecForm;
-import addForms.ObjednavkaForm;
-import addForms.UklidForm;
-import addForms.ZakaznikForm;
-import addForms.ZamestnanecForm;
+import forms.KlecForm;
+import forms.ObjednavkaForm;
+import forms.UklidForm;
+import forms.ZakaznikForm;
+import forms.ZamestnanecForm;
 import org.apache.commons.lang3.StringUtils;
 import clients.KlecJerseyClient;
 import clients.ObjednavkyJerseyClient;
@@ -290,7 +290,7 @@ public class MyUI extends UI {
 		gridKlec.setSizeFull();
 		createKlecGridColumns();
 
-		KlecForm klecForm = new KlecForm(kleceData, objednavkyData, zakazniciData, zamestnanciData, uklidData, klecJerseyClient, this);
+		KlecForm klecForm = new KlecForm(this);
 
 		hl.addComponents(gridKlec, klecForm);
 		hl.setExpandRatio(gridKlec, 10);
@@ -364,7 +364,7 @@ public class MyUI extends UI {
 		gridObjednavky.setSizeFull();
 		createObjednavkaGridColumns();
 
-		ObjednavkaForm objednavkaForm = new ObjednavkaForm(kleceData, objednavkyData, zakazniciData, zamestnanciData, uklidData, objednavkyJerseyClient, this);
+		ObjednavkaForm objednavkaForm = new ObjednavkaForm(this);
 
 		hl.addComponents(gridObjednavky, objednavkaForm);
 		hl.setExpandRatio(gridObjednavky, 10);
@@ -588,6 +588,28 @@ public class MyUI extends UI {
 
 	}
 
+	@Override
+	protected void init(VaadinRequest vaadinRequest) {
+
+		try {
+			fetchData();
+		} catch (Exception e) {
+			Label error = new Label(e.toString());
+			defaultLayout = new VerticalLayout();
+			defaultLayout.addComponent(error);
+			setContent(defaultLayout);
+			return;
+		}
+
+		initLayouts();
+		setContent(klecLayout);
+	}
+
+	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
+	public static class MyUIServlet extends VaadinServlet {
+	}
+
 	private ZamestnanecEntity findZam(int id) {
 		for (ZamestnanecEntity z : zamestnanciData) {
 			if (z.getId().equals(id)) {
@@ -637,25 +659,168 @@ public class MyUI extends UI {
 		this.uklidData = uklidData;
 	}
 
-	@Override
-	protected void init(VaadinRequest vaadinRequest) {
-
-		try {
-			fetchData();
-		} catch (Exception e) {
-			Label error = new Label(e.toString());
-			defaultLayout = new VerticalLayout();
-			defaultLayout.addComponent(error);
-			setContent(defaultLayout);
-			return;
-		}
-
-		initLayouts();
-		setContent(klecLayout);
+	public int getCnt() {
+		return cnt;
 	}
 
-	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
-	public static class MyUIServlet extends VaadinServlet {
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
 	}
+
+	public int getAdded() {
+		return added;
+	}
+
+	public void setAdded(int added) {
+		this.added = added;
+	}
+
+	public KlecJerseyClient getKlecJerseyClient() {
+		return klecJerseyClient;
+	}
+
+	public void setKlecJerseyClient(KlecJerseyClient klecJerseyClient) {
+		this.klecJerseyClient = klecJerseyClient;
+	}
+
+	public ObjednavkyJerseyClient getObjednavkyJerseyClient() {
+		return objednavkyJerseyClient;
+	}
+
+	public void setObjednavkyJerseyClient(ObjednavkyJerseyClient objednavkyJerseyClient) {
+		this.objednavkyJerseyClient = objednavkyJerseyClient;
+	}
+
+	public ZakaznikJerseyClient getZakaznikJerseyClient() {
+		return zakaznikJerseyClient;
+	}
+
+	public void setZakaznikJerseyClient(ZakaznikJerseyClient zakaznikJerseyClient) {
+		this.zakaznikJerseyClient = zakaznikJerseyClient;
+	}
+
+	public ZamestnanecJerseyClient getZamestnanecJerseyClient() {
+		return zamestnanecJerseyClient;
+	}
+
+	public void setZamestnanecJerseyClient(ZamestnanecJerseyClient zamestnanecJerseyClient) {
+		this.zamestnanecJerseyClient = zamestnanecJerseyClient;
+	}
+
+	public UklidJerseyClient getUklidJerseyClient() {
+		return uklidJerseyClient;
+	}
+
+	public void setUklidJerseyClient(UklidJerseyClient uklidJerseyClient) {
+		this.uklidJerseyClient = uklidJerseyClient;
+	}
+
+	public VerticalLayout getDefaultLayout() {
+		return defaultLayout;
+	}
+
+	public void setDefaultLayout(VerticalLayout defaultLayout) {
+		this.defaultLayout = defaultLayout;
+	}
+
+	public VerticalLayout getKlecLayout() {
+		return klecLayout;
+	}
+
+	public void setKlecLayout(VerticalLayout klecLayout) {
+		this.klecLayout = klecLayout;
+	}
+
+	public VerticalLayout getObjednavkaLayout() {
+		return objednavkaLayout;
+	}
+
+	public void setObjednavkaLayout(VerticalLayout objednavkaLayout) {
+		this.objednavkaLayout = objednavkaLayout;
+	}
+
+	public VerticalLayout getZakaznikLayout() {
+		return zakaznikLayout;
+	}
+
+	public void setZakaznikLayout(VerticalLayout zakaznikLayout) {
+		this.zakaznikLayout = zakaznikLayout;
+	}
+
+	public VerticalLayout getZamestnanecLayout() {
+		return zamestnanecLayout;
+	}
+
+	public void setZamestnanecLayout(VerticalLayout zamestnanecLayout) {
+		this.zamestnanecLayout = zamestnanecLayout;
+	}
+
+	public VerticalLayout getUklidLayout() {
+		return uklidLayout;
+	}
+
+	public void setUklidLayout(VerticalLayout uklidLayout) {
+		this.uklidLayout = uklidLayout;
+	}
+
+	public Grid<KlecEntity> getGridKlec() {
+		return gridKlec;
+	}
+
+	public void setGridKlec(Grid<KlecEntity> gridKlec) {
+		this.gridKlec = gridKlec;
+	}
+
+	public Grid<ObjednavkaEntity> getGridObjednavky() {
+		return gridObjednavky;
+	}
+
+	public void setGridObjednavky(Grid<ObjednavkaEntity> gridObjednavky) {
+		this.gridObjednavky = gridObjednavky;
+	}
+
+	public Grid<ZakaznikEntity> getGridZakaznici() {
+		return gridZakaznici;
+	}
+
+	public void setGridZakaznici(Grid<ZakaznikEntity> gridZakaznici) {
+		this.gridZakaznici = gridZakaznici;
+	}
+
+	public Grid<ZamestnanecEntity> getGridZamestnanec() {
+		return gridZamestnanec;
+	}
+
+	public void setGridZamestnanec(Grid<ZamestnanecEntity> gridZamestnanec) {
+		this.gridZamestnanec = gridZamestnanec;
+	}
+
+	public Grid<UklidEntity> getGridUklid() {
+		return gridUklid;
+	}
+
+	public void setGridUklid(Grid<UklidEntity> gridUklid) {
+		this.gridUklid = gridUklid;
+	}
+
+	public List<KlecEntity> getKleceData() {
+		return kleceData;
+	}
+
+	public List<ObjednavkaEntity> getObjednavkyData() {
+		return objednavkyData;
+	}
+
+	public List<ZakaznikEntity> getZakazniciData() {
+		return zakazniciData;
+	}
+
+	public List<ZamestnanecEntity> getZamestnanciData() {
+		return zamestnanciData;
+	}
+
+	public List<UklidEntity> getUklidData() {
+		return uklidData;
+	}
+
 }
