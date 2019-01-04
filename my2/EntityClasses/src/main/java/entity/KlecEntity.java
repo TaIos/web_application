@@ -31,7 +31,7 @@ public class KlecEntity implements Serializable {
 	private Integer pocetTukanu;
 
 	@Column(name = "VELIKOST_KLECE_M3")
-	private Double velikostKleceM3;
+	private Float velikostKleceM3;
 
 	@Column(name = "VYBAVENI")
 	private String vybaveni;
@@ -45,7 +45,7 @@ public class KlecEntity implements Serializable {
 	public KlecEntity() {
 	}
 
-	public KlecEntity(Integer id, Integer pocetTukanu, Double velikostKleceM3, String vybaveni, Integer prohlidkaId, Collection<ZamestnanecEntity> jeUklizena) {
+	public KlecEntity(Integer id, Integer pocetTukanu, Float velikostKleceM3, String vybaveni, Integer prohlidkaId, Collection<ZamestnanecEntity> jeUklizena) {
 		this.id = id;
 		this.pocetTukanu = pocetTukanu;
 		this.velikostKleceM3 = velikostKleceM3;
@@ -54,7 +54,7 @@ public class KlecEntity implements Serializable {
 		this.jeUklizena = jeUklizena;
 	}
 
-	public KlecEntity(Integer id, Integer pocetTukanu, Double velikostKleceM3, String vybaveni, Integer prohlidkaId) {
+	public KlecEntity(Integer id, Integer pocetTukanu, Float velikostKleceM3, String vybaveni, Integer prohlidkaId) {
 		this.id = id;
 		this.pocetTukanu = pocetTukanu;
 		this.velikostKleceM3 = velikostKleceM3;
@@ -88,11 +88,11 @@ public class KlecEntity implements Serializable {
 		this.pocetTukanu = pocetTukanu;
 	}
 
-	public Double getVelikostKleceM3() {
+	public Float getVelikostKleceM3() {
 		return velikostKleceM3;
 	}
 
-	public void setVelikostKleceM3(Double velikostKleceM3) {
+	public void setVelikostKleceM3(Float velikostKleceM3) {
 		this.velikostKleceM3 = velikostKleceM3;
 	}
 

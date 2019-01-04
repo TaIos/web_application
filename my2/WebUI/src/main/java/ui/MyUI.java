@@ -8,6 +8,9 @@ import clients.ZakaznikJerseyClient;
 import clients.ZamestnanecJerseyClient;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.data.Binder;
+import com.vaadin.data.converter.StringToFloatConverter;
+import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
@@ -17,6 +20,7 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.ButtonRenderer;
@@ -318,6 +322,33 @@ public class MyUI extends UI {
 				removeKlec(e.getItem());
 			}
 		));
+
+		TextField pocetTukanu = new TextField("Pocet tukanu");
+		TextField velikostKlece = new TextField("Velikost klece");
+		TextField vybaveni = new TextField("Vybaveni");
+		final Binder<KlecEntity> klecBinder = new Binder<>(KlecEntity.class);
+		klecBinder.forField(pocetTukanu).asRequired().withConverter(new StringToIntegerConverter("Pocet musi byt cislo")).bind(KlecEntity::getPocetTukanu, KlecEntity::setPocetTukanu);
+		klecBinder.forField(velikostKlece).asRequired().withConverter(new StringToFloatConverter("Velikost musi byt cislo")).bind(KlecEntity::getVelikostKleceM3, KlecEntity::setVelikostKleceM3);
+		klecBinder.forField(vybaveni).asRequired().bind(KlecEntity::getVybaveni, KlecEntity::setVybaveni);
+
+		gridKlec.addSelectionListener(e -> {
+			if (e.getFirstSelectedItem().isPresent()) {
+				klecBinder.readBean(e.getFirstSelectedItem().get());
+			}
+		});
+
+		gridKlec.addColumn(k -> "Potvrdit upravu", new ButtonRenderer<>(
+			e -> {
+				KlecEntity k = new KlecEntity();
+				if (klecBinder.writeBeanIfValid(k)) {
+
+					addKlec(e.getItem());
+				}
+			}
+		));
+
+		gridKlec.getEditor().setBinder(klecBinder);
+		gridKlec.getEditor().setEnabled(true);
 	}
 
 	private void removeKlec(KlecEntity k) {
@@ -348,6 +379,15 @@ public class MyUI extends UI {
 		uklidData.removeAll(found);
 
 		refreshGrids();
+	}
+
+	private void addKlec(KlecEntity k) {
+
+		refreshGrids();
+	}
+
+	private void updateKlec(KlecEntity k) {
+
 	}
 
 	private void createObjednavkyGrid() {
