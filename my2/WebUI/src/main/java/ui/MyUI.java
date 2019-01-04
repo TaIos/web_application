@@ -58,11 +58,11 @@ public class MyUI extends UI {
 	UklidJerseyClient uklidJerseyClient;
 
 	VerticalLayout defaultLayout;
-	GridLayout klecLayout;
-	GridLayout objednavkaLayout;
-	GridLayout zakaznikLayout;
-	GridLayout zamestnanecLayout;
-	GridLayout uklidLayout;
+	VerticalLayout klecLayout;
+	VerticalLayout objednavkaLayout;
+	VerticalLayout zakaznikLayout;
+	VerticalLayout zamestnanecLayout;
+	VerticalLayout uklidLayout;
 
 	Grid<KlecEntity> gridKlec;
 	Grid<ObjednavkaEntity> gridObjednavky;
@@ -92,34 +92,31 @@ public class MyUI extends UI {
 
 	private void initLayouts() {
 		createLayouts();
+		addSwitchButtons();
 		addHeadings();
 		createDataGrids();
-		addSwitchButtons();
-		setSizes();
 	}
 
 	private void createLayouts() {
-		int w = 2;
-		int h = 2;
 		boolean visibility = true;
 
-		klecLayout = new GridLayout(w, h);
+		klecLayout = new VerticalLayout();
 		klecLayout.setSizeFull();
 		klecLayout.setVisible(visibility);
 
-		objednavkaLayout = new GridLayout(w, h);
+		objednavkaLayout = new VerticalLayout();
 		objednavkaLayout.setSizeFull();
 		objednavkaLayout.setVisible(visibility);
 
-		zakaznikLayout = new GridLayout(w, h);
+		zakaznikLayout = new VerticalLayout();
 		zakaznikLayout.setSizeFull();
 		zakaznikLayout.setVisible(visibility);
 
-		zamestnanecLayout = new GridLayout(w, h);
+		zamestnanecLayout = new VerticalLayout();
 		zamestnanecLayout.setSizeFull();
 		zamestnanecLayout.setVisible(visibility);
 
-		uklidLayout = new GridLayout(w, h);
+		uklidLayout = new VerticalLayout();
 		uklidLayout.setSizeFull();
 		uklidLayout.setVisible(visibility);
 
@@ -130,32 +127,30 @@ public class MyUI extends UI {
 	}
 
 	private void addHeadings() {
-		int x = 1;
-		int y = 0;
 
 		final Label headKlec = new Label("Klece");
 		headKlec.addStyleName(ValoTheme.LABEL_H1);
-		klecLayout.addComponent(headKlec, x, y);
+		klecLayout.addComponent(headKlec);
 		klecLayout.setComponentAlignment(headKlec, Alignment.TOP_CENTER);
 
 		final Label headObjednavka = new Label("Objednavky");
 		headObjednavka.addStyleName(ValoTheme.LABEL_H1);
-		objednavkaLayout.addComponent(headObjednavka, x, y);
+		objednavkaLayout.addComponent(headObjednavka);
 		objednavkaLayout.setComponentAlignment(headObjednavka, Alignment.TOP_CENTER);
 
 		final Label headZakaznik = new Label("Zakaznici");
 		headZakaznik.addStyleName(ValoTheme.LABEL_H1);
-		zakaznikLayout.addComponent(headZakaznik, x, y);
+		zakaznikLayout.addComponent(headZakaznik);
 		zakaznikLayout.setComponentAlignment(headZakaznik, Alignment.TOP_CENTER);
 
 		final Label headZamestnanec = new Label("Zamestnanci");
 		headZamestnanec.addStyleName(ValoTheme.LABEL_H1);
-		zamestnanecLayout.addComponent(headZamestnanec, x, y);
+		zamestnanecLayout.addComponent(headZamestnanec);
 		zamestnanecLayout.setComponentAlignment(headZamestnanec, Alignment.TOP_CENTER);
 
 		final Label headUklid = new Label("Uklid");
 		headUklid.addStyleName(ValoTheme.LABEL_H1);
-		uklidLayout.addComponent(headUklid, x, y);
+		uklidLayout.addComponent(headUklid);
 		uklidLayout.setComponentAlignment(headUklid, Alignment.TOP_CENTER);
 	}
 
@@ -260,30 +255,14 @@ public class MyUI extends UI {
 		switchButtons5.addComponents(buttonKlec5, buttonObjednavky5, buttonZakaznik5, buttonZamestnanec5, buttonUklid5);
 		switchButtons5.setVisible(true);
 
-		int x = 0;
-		int y = 0;
-		klecLayout.addComponent(switchButtons1, x, y);
-		objednavkaLayout.addComponent(switchButtons2, x, y);
-		zakaznikLayout.addComponent(switchButtons3, x, y);
-		zamestnanecLayout.addComponent(switchButtons4, x, y);
-		uklidLayout.addComponent(switchButtons5, x, y);
-	}
-
-	// TODO
-	private void setSizes() {
-		int x = 1;
-		int y = 5;
-
-		/*
-		klecLayout.setColumnExpandRatio(0, x);
-		klecLayout.setColumnExpandRatio(1, y);
-		klecLayout.setRowExpandRatio(0, 1);
-		klecLayout.setRowExpandRatio(1, 10);
-		 */
+		klecLayout.addComponent(switchButtons1);
+		objednavkaLayout.addComponent(switchButtons2);
+		zakaznikLayout.addComponent(switchButtons3);
+		zamestnanecLayout.addComponent(switchButtons4);
+		uklidLayout.addComponent(switchButtons5);
 	}
 
 	private void refreshGrids() {
-
 		gridKlec.setItems(kleceData);
 		gridObjednavky.setItems(objednavkyData);
 		gridZakaznici.setItems(zakazniciData);
@@ -303,10 +282,10 @@ public class MyUI extends UI {
 
 		gridKlec = new Grid<>(KlecEntity.class);
 		createKlecGridColumns();
-		int x = 1;
-		int y = 1;
-		klecLayout.addComponent(gridKlec, x, y);
+		klecLayout.addComponent(gridKlec);
+		gridKlec.setSizeFull();
 		klecLayout.setComponentAlignment(gridKlec, Alignment.TOP_CENTER);
+		klecLayout.setExpandRatio(gridKlec, 10);
 	}
 
 	private void createKlecGridColumns() {
@@ -391,13 +370,12 @@ public class MyUI extends UI {
 	}
 
 	private void createObjednavkyGrid() {
-		int x = 1;
-		int y = 1;
-
 		gridObjednavky = new Grid<>(ObjednavkaEntity.class);
+		gridObjednavky.setSizeFull();
 		createObjednavkaGridColumns();
-		objednavkaLayout.addComponent(gridObjednavky, x, y);
+		objednavkaLayout.addComponent(gridObjednavky);
 		objednavkaLayout.setComponentAlignment(gridObjednavky, Alignment.TOP_CENTER);
+		objednavkaLayout.setExpandRatio(gridObjednavky, 10);
 	}
 
 	private void createObjednavkaGridColumns() {
@@ -428,13 +406,12 @@ public class MyUI extends UI {
 	}
 
 	private void createZakaznikGrid() {
-		int x = 1;
-		int y = 1;
-
 		gridZakaznici = new Grid<>(ZakaznikEntity.class);
+		gridZakaznici.setSizeFull();
 		createZakaznikGridColumns();
-		zakaznikLayout.addComponent(gridZakaznici, x, y);
+		zakaznikLayout.addComponent(gridZakaznici);
 		zakaznikLayout.setComponentAlignment(gridZakaznici, Alignment.TOP_CENTER);
+		zakaznikLayout.setExpandRatio(gridZakaznici, 10);
 	}
 
 	private void createZakaznikGridColumns() {
@@ -469,14 +446,13 @@ public class MyUI extends UI {
 	}
 
 	private void createZamestnanecGrid() {
-		int x = 1;
-		int y = 1;
-
 		gridZamestnanec = new Grid<>(ZamestnanecEntity.class);
+		gridZamestnanec.setSizeFull();
 		gridZamestnanec.setItems(zamestnanciData);
 		createZamestnanecGridColumns();
-		zamestnanecLayout.addComponent(gridZamestnanec, x, y);
+		zamestnanecLayout.addComponent(gridZamestnanec);
 		zamestnanecLayout.setComponentAlignment(gridZamestnanec, Alignment.TOP_CENTER);
+		zamestnanecLayout.setExpandRatio(gridZamestnanec, 10);
 	}
 
 	private void createZamestnanecGridColumns() {
@@ -516,13 +492,12 @@ public class MyUI extends UI {
 	}
 
 	private void createUklidGrid() {
-		int x = 1;
-		int y = 1;
-
 		gridUklid = new Grid<>(UklidEntity.class);
+		gridUklid.setSizeFull();
 		createUklidGridColumns();
-		uklidLayout.addComponent(gridUklid, x, y);
+		uklidLayout.addComponent(gridUklid);
 		uklidLayout.setComponentAlignment(gridUklid, Alignment.TOP_CENTER);
+		uklidLayout.setExpandRatio(gridUklid, 10);
 	}
 
 	private void createUklidGridColumns() {
