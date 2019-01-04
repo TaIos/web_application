@@ -38,20 +38,20 @@ public class ObjednavkaEntityFacadeREST extends AbstractFacade<ObjednavkaEntity>
 	@PUT
 	@Path("{id}")
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public void edit(@PathParam("id") Long id, ObjednavkaEntity entity) {
+	public void edit(@PathParam("id") Integer id, ObjednavkaEntity entity) {
 		super.edit(entity);
 	}
 
 	@DELETE
 	@Path("{id}")
-	public void remove(@PathParam("id") Long id) {
+	public void remove(@PathParam("id") Integer id) {
 		super.remove(super.find(id));
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public ObjednavkaDTO findObjednavku(@PathParam("id") Long id) {
+	public ObjednavkaDTO findObjednavku(@PathParam("id") Integer id) {
 		ObjednavkaDTO objednavka = new ObjednavkaDTO();
 		ArrayList<ObjednavkaEntity> res = new ArrayList<>();
 		res.add(super.find(id));

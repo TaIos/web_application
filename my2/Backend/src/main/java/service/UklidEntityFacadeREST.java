@@ -66,9 +66,11 @@ public class UklidEntityFacadeREST extends AbstractFacade<UklidEntity> {
 	}
 
 	@DELETE
-	@Path("{id}")
-	public void remove(@PathParam("id") PathSegment id) {
-		entity.UklidKey key = getPrimaryKey(id);
+	@Path("{id_zam}-{id_klec}")
+	public void remove(
+		@PathParam("id_zam") Integer id_zam,
+		@PathParam("id_klec") Integer id_klec) {
+		UklidKey key = new UklidKey(id_zam, id_klec);
 		super.remove(super.find(key));
 	}
 

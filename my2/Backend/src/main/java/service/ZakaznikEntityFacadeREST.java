@@ -37,20 +37,20 @@ public class ZakaznikEntityFacadeREST extends AbstractFacade<ZakaznikEntity> {
 	@PUT
 	@Path("{id}")
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public void edit(@PathParam("id") Long id, ZakaznikEntity entity) {
+	public void edit(@PathParam("id") Integer id, ZakaznikEntity entity) {
 		super.edit(entity);
 	}
 
 	@DELETE
 	@Path("{id}")
-	public void remove(@PathParam("id") Long id) {
+	public void remove(@PathParam("id") Integer id) {
 		super.remove(super.find(id));
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public ZakaznikDTO findZakaznik(@PathParam("id") Long id) {
+	public ZakaznikDTO findZakaznik(@PathParam("id") Integer id) {
 		ZakaznikDTO zakaznik = new ZakaznikDTO();
 		ArrayList<ZakaznikEntity> res = new ArrayList<>();
 		res.add(super.find(id));

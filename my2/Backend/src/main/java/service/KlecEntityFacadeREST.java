@@ -38,20 +38,20 @@ public class KlecEntityFacadeREST extends AbstractFacade<KlecEntity> {
 	@PUT
 	@Path("{id}")
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public void edit(@PathParam("id") Long id, KlecEntity entity) {
+	public void edit(@PathParam("id") Integer id, KlecEntity entity) {
 		super.edit(entity);
 	}
 
 	@DELETE
 	@Path("{id}")
-	public void remove(@PathParam("id") Long id) {
+	public void remove(@PathParam("id") Integer id) {
 		super.remove(super.find(id));
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public KlecDTO findKlec(@PathParam("id") Long id) {
+	public KlecDTO findKlec(@PathParam("id") Integer id) {
 		KlecDTO klec = new KlecDTO();
 		ArrayList<KlecEntity> res = new ArrayList<>();
 		res.add(super.find(id));

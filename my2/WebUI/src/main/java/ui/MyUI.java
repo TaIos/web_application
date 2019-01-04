@@ -16,10 +16,10 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.ButtonRenderer;
-import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 import dto.KlecDTO;
 import dto.ObjednavkaDTO;
@@ -31,9 +31,7 @@ import entity.ObjednavkaEntity;
 import entity.UklidEntity;
 import entity.ZakaznikEntity;
 import entity.ZamestnanecEntity;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 
@@ -280,6 +278,15 @@ public class MyUI extends UI {
 		 */
 	}
 
+	private void refreshGrids() {
+
+		gridKlec.setItems(kleceData);
+		gridObjednavky.setItems(objednavkyData);
+		gridZakaznici.setItems(zakazniciData);
+		gridZamestnanec.setItems(zamestnanciData);
+		gridUklid.setItems(uklidData);
+	}
+
 	private void createDataGrids() {
 		createKlecGrid();
 		createObjednavkyGrid();
@@ -308,9 +315,39 @@ public class MyUI extends UI {
 
 		gridKlec.addColumn(k -> "Smazat", new ButtonRenderer<>(
 			e -> {
-				removeKlec(k);
+				removeKlec(e.getItem());
 			}
 		));
+	}
+
+	private void removeKlec(KlecEntity k) {
+
+		if (k.getPocetTukanu() > 0) {
+			Notification.show("Nelze smazat. V teto kleci zije " + k.getPocetTukanu() + " tukanu", Notification.Type.TRAY_NOTIFICATION);
+			return;
+		}
+
+		Integer id = k.getId();
+
+		// remove klec from klece
+		klecJerseyClient.remove("" + k.getId());
+		kleceData.remove(k);
+
+		//collect uklid with klec present
+		List<UklidEntity> found = new ArrayList<>();
+		for (UklidEntity u : uklidData) {
+			if (u.getId().getKlec_id().equals(k.getId())) {
+				found.add(u);
+			}
+		}
+
+		// remove klec from uklid
+		for (UklidEntity u : found) {
+			uklidJerseyClient.remove(u.getId().getZam_id() + "-" + u.getId().getKlec_id());
+		}
+		uklidData.removeAll(found);
+
+		refreshGrids();
 	}
 
 	private void createObjednavkyGrid() {
@@ -336,6 +373,18 @@ public class MyUI extends UI {
 		gridObjednavky.addColumn(ObjednavkaEntity::getIdTukan).setCaption("Cislo tukana");
 		gridObjednavky.addColumn(ObjednavkaEntity::getDatumVytvoreni).setCaption("Datum vytvoreni");
 		gridObjednavky.addColumn(ObjednavkaEntity::getTypDopravy).setCaption("Typ dopravy");
+
+		gridObjednavky.addColumn(k -> "Smazat", new ButtonRenderer<>(
+			e -> {
+				removeObjednavka(e.getItem());
+			}
+		));
+	}
+
+	private void removeObjednavka(ObjednavkaEntity o) {
+		objednavkyJerseyClient.remove("" + o.getId());
+		objednavkyData.remove(o);
+		refreshGrids();
 	}
 
 	private void createZakaznikGrid() {
@@ -346,7 +395,6 @@ public class MyUI extends UI {
 		createZakaznikGridColumns();
 		zakaznikLayout.addComponent(gridZakaznici, x, y);
 		zakaznikLayout.setComponentAlignment(gridZakaznici, Alignment.TOP_CENTER);
-
 	}
 
 	private void createZakaznikGridColumns() {
@@ -363,6 +411,21 @@ public class MyUI extends UI {
 			return StringUtils.join(getObjednavky(z), ",");
 		}
 		).setCaption("Cisla objednavek");
+		gridZakaznici.addColumn(z -> "Smazat", new ButtonRenderer<>(
+			e -> {
+				removeZakaznik(e.getItem());
+			}
+		));
+	}
+
+	private void removeZakaznik(ZakaznikEntity z) {
+		if (getObjednavky(z).size() > 0) {
+			Notification.show("Nelze smazat. Tento zakaznik ma objednavky.");
+			return;
+		}
+		zakaznikJerseyClient.remove(z.getId() + "");
+		zakazniciData.remove(z);
+		refreshGrids();
 	}
 
 	private void createZamestnanecGrid() {
@@ -384,6 +447,32 @@ public class MyUI extends UI {
 		gridZamestnanec.addColumn(ZamestnanecEntity::getAdresa).setCaption("Bydliste");
 		gridZamestnanec.addColumn(ZamestnanecEntity::getRodneCislo).setCaption("Rodne cislo");
 		gridZamestnanec.addColumn(ZamestnanecEntity::getPozice_id).setCaption("Cislo pozice");
+
+		gridZamestnanec.addColumn(z -> "Smazat", new ButtonRenderer<>(
+			e -> {
+				removeZamestnanec(e.getItem());
+			}
+		));
+	}
+
+	private void removeZamestnanec(ZamestnanecEntity z) {
+		List<UklidEntity> found = new ArrayList<>();
+
+		for (UklidEntity u : uklidData) {
+			if (u.getId().getZam_id().equals(z.getId())) {
+				found.add(u);
+
+			}
+		}
+		// remove zamestnanec from uklid
+		for (UklidEntity u : found) {
+			uklidJerseyClient.remove(u.getId().getZam_id() + "-" + u.getId().getKlec_id());
+		}
+		uklidData.removeAll(found);
+
+		zamestnanecJerseyClient.remove(z.getId() + "");
+		zamestnanciData.remove(z);
+		refreshGrids();
 	}
 
 	private void createUklidGrid() {
@@ -408,6 +497,18 @@ public class MyUI extends UI {
 		).setCaption("Jmeno zamestnance");
 
 		gridUklid.addColumn(UklidEntity::getKlecID).setCaption("Cislo klece");
+
+		gridUklid.addColumn(z -> "Smazat", new ButtonRenderer<>(
+			e -> {
+				removeUklid(e.getItem());
+			}
+		));
+	}
+
+	private void removeUklid(UklidEntity u) {
+		uklidJerseyClient.remove(u.getId().getZam_id() + "-" + u.getId().getKlec_id());
+		uklidData.remove(u);
+		refreshGrids();
 	}
 
 	private ZamestnanecEntity findZam(int id) {
@@ -437,10 +538,6 @@ public class MyUI extends UI {
 			}
 		}
 		return obj;
-	}
-
-	private void removeKlec(KlecEntity k) {
-
 	}
 
 	@Override
