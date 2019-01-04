@@ -297,17 +297,18 @@ public class MyUI extends UI {
 		gridKlec.addColumn(KlecEntity::getVelikostKleceM3).setCaption("Velikost v m3");
 		gridKlec.addColumn(KlecEntity::getVybaveni).setCaption("Vybaveni");
 
+		gridKlec.addColumn(k -> "Uprait", new ButtonRenderer<>(
+			e -> {
+				updateKlec(e.getItem());
+			}
+		));
+
 		gridKlec.addColumn(k -> "Smazat", new ButtonRenderer<>(
 			e -> {
 				removeKlec(e.getItem());
 			}
 		));
 
-		gridKlec.addColumn(k -> "Uprait", new ButtonRenderer<>(
-			e -> {
-				updateKlec(k);
-			}
-		));
 	}
 
 	private void removeKlec(KlecEntity k) {
@@ -371,11 +372,18 @@ public class MyUI extends UI {
 		gridObjednavky.addColumn(ObjednavkaEntity::getDatumVytvoreni).setCaption("Datum vytvoreni");
 		gridObjednavky.addColumn(ObjednavkaEntity::getTypDopravy).setCaption("Typ dopravy");
 
+		gridObjednavky.addColumn(k -> "Upravit", new ButtonRenderer<>(
+			e -> {
+				updateObjednavka(e.getItem());
+			}
+		));
+
 		gridObjednavky.addColumn(k -> "Smazat", new ButtonRenderer<>(
 			e -> {
 				removeObjednavka(e.getItem());
 			}
 		));
+
 	}
 
 	private void removeObjednavka(ObjednavkaEntity o) {
@@ -415,6 +423,13 @@ public class MyUI extends UI {
 			return StringUtils.join(getObjednavky(z), ",");
 		}
 		).setCaption("Cisla objednavek");
+
+		gridZakaznici.addColumn(z -> "Upravit", new ButtonRenderer<>(
+			e -> {
+				updateZakaznik(e.getItem());
+			}
+		));
+
 		gridZakaznici.addColumn(z -> "Smazat", new ButtonRenderer<>(
 			e -> {
 				removeZakaznik(e.getItem());
@@ -458,6 +473,12 @@ public class MyUI extends UI {
 		gridZamestnanec.addColumn(ZamestnanecEntity::getAdresa).setCaption("Bydliste");
 		gridZamestnanec.addColumn(ZamestnanecEntity::getRodneCislo).setCaption("Rodne cislo");
 		gridZamestnanec.addColumn(ZamestnanecEntity::getPozice_id).setCaption("Cislo pozice");
+
+		gridZamestnanec.addColumn(z -> "Upravit", new ButtonRenderer<>(
+			e -> {
+				updateZamestnanec(e.getItem());
+			}
+		));
 
 		gridZamestnanec.addColumn(z -> "Smazat", new ButtonRenderer<>(
 			e -> {
@@ -516,6 +537,12 @@ public class MyUI extends UI {
 
 		gridUklid.addColumn(UklidEntity::getKlecID).setCaption("Cislo klece");
 
+		gridUklid.addColumn(z -> "Upravit", new ButtonRenderer<>(
+			e -> {
+				updateUklid(e.getItem());
+			}
+		));
+
 		gridUklid.addColumn(z -> "Smazat", new ButtonRenderer<>(
 			e -> {
 				removeUklid(e.getItem());
@@ -543,7 +570,7 @@ public class MyUI extends UI {
 		});
 		klecLayout.addComponent(addNew1);
 
-		Button addNew2 = new Button("Vytvoril objednavku", e -> {
+		Button addNew2 = new Button("Vytvorit objednavku", e -> {
 			createObjednavka();
 		});
 		objednavkaLayout.addComponent(addNew2);
