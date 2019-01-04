@@ -1,5 +1,10 @@
 package ui;
 
+import addForms.KlecForm;
+import addForms.ObjednavkaForm;
+import addForms.UklidForm;
+import addForms.ZakaznikForm;
+import addForms.ZamestnanecForm;
 import org.apache.commons.lang3.StringUtils;
 import clients.KlecJerseyClient;
 import clients.ObjednavkyJerseyClient;
@@ -95,7 +100,6 @@ public class MyUI extends UI {
 		createAddSwitchButtons();
 		createAddddHeadings();
 		createAddDataGrids();
-		createAddNewButtons();
 	}
 
 	private void createLayouts() {
@@ -280,13 +284,20 @@ public class MyUI extends UI {
 	}
 
 	private void createAddKlecGrid() {
+		HorizontalLayout hl = new HorizontalLayout();
 
 		gridKlec = new Grid<>(KlecEntity.class);
-		createKlecGridColumns();
-		klecLayout.addComponent(gridKlec);
 		gridKlec.setSizeFull();
-		klecLayout.setComponentAlignment(gridKlec, Alignment.TOP_CENTER);
-		klecLayout.setExpandRatio(gridKlec, 10);
+		createKlecGridColumns();
+
+		KlecForm klecForm = new KlecForm(this, klecJerseyClient);
+
+		hl.addComponents(gridKlec, klecForm);
+		hl.setExpandRatio(gridKlec, 10);
+		hl.setSizeFull();
+
+		klecLayout.addComponent(hl);
+		klecLayout.setExpandRatio(hl, 10);
 	}
 
 	private void createKlecGridColumns() {
@@ -341,21 +352,26 @@ public class MyUI extends UI {
 		refreshGrids();
 	}
 
-	private void createKlec() {
-
-	}
-
 	private void updateKlec(KlecEntity k) {
 
 	}
 
 	private void createAddObjednavkyGrid() {
+
+		HorizontalLayout hl = new HorizontalLayout();
+
 		gridObjednavky = new Grid<>(ObjednavkaEntity.class);
 		gridObjednavky.setSizeFull();
 		createObjednavkaGridColumns();
-		objednavkaLayout.addComponent(gridObjednavky);
-		objednavkaLayout.setComponentAlignment(gridObjednavky, Alignment.TOP_CENTER);
-		objednavkaLayout.setExpandRatio(gridObjednavky, 10);
+
+		ObjednavkaForm objednavkaForm = new ObjednavkaForm(objednavkyJerseyClient, this);
+
+		hl.addComponents(gridObjednavky, objednavkaForm);
+		hl.setExpandRatio(gridObjednavky, 10);
+		hl.setSizeFull();
+
+		objednavkaLayout.addComponent(hl);
+		objednavkaLayout.setExpandRatio(hl, 10);
 	}
 
 	private void createObjednavkaGridColumns() {
@@ -392,21 +408,25 @@ public class MyUI extends UI {
 		refreshGrids();
 	}
 
-	private void createObjednavka() {
-
-	}
-
 	private void updateObjednavka(ObjednavkaEntity o) {
 
 	}
 
 	private void createAddZakaznikGrid() {
+		HorizontalLayout hl = new HorizontalLayout();
+
 		gridZakaznici = new Grid<>(ZakaznikEntity.class);
 		gridZakaznici.setSizeFull();
 		createZakaznikGridColumns();
-		zakaznikLayout.addComponent(gridZakaznici);
-		zakaznikLayout.setComponentAlignment(gridZakaznici, Alignment.TOP_CENTER);
-		zakaznikLayout.setExpandRatio(gridZakaznici, 10);
+
+		ZakaznikForm zakaznikForm = new ZakaznikForm(zakaznikJerseyClient, this);
+
+		hl.addComponents(gridZakaznici, zakaznikForm);
+		hl.setExpandRatio(gridZakaznici, 10);
+		hl.setSizeFull();
+
+		zakaznikLayout.addComponent(hl);
+		zakaznikLayout.setExpandRatio(hl, 10);
 	}
 
 	private void createZakaznikGridColumns() {
@@ -447,25 +467,29 @@ public class MyUI extends UI {
 		refreshGrids();
 	}
 
-	private void createZakaznik() {
-
-	}
-
 	private void updateZakaznik(ZakaznikEntity z) {
 
 	}
 
 	private void createAddZamestnanecGrid() {
+		HorizontalLayout hl = new HorizontalLayout();
+
 		gridZamestnanec = new Grid<>(ZamestnanecEntity.class);
 		gridZamestnanec.setSizeFull();
-		gridZamestnanec.setItems(zamestnanciData);
 		createZamestnanecGridColumns();
-		zamestnanecLayout.addComponent(gridZamestnanec);
-		zamestnanecLayout.setComponentAlignment(gridZamestnanec, Alignment.TOP_CENTER);
-		zamestnanecLayout.setExpandRatio(gridZamestnanec, 10);
+
+		ZamestnanecForm zamestnanecForm = new ZamestnanecForm(zamestnanecJerseyClient, this);
+
+		hl.addComponents(gridZamestnanec, zamestnanecForm);
+		hl.setExpandRatio(gridZamestnanec, 10);
+		hl.setSizeFull();
+
+		zamestnanecLayout.addComponent(hl);
+		zamestnanecLayout.setExpandRatio(hl, 10);
 	}
 
 	private void createZamestnanecGridColumns() {
+		gridZamestnanec.setItems(zamestnanciData);
 		gridZamestnanec.removeAllColumns();
 		gridZamestnanec.addColumn(ZamestnanecEntity::getJmeno).setCaption("Jmeno");
 		gridZamestnanec.addColumn(ZamestnanecEntity::getPrijmeni).setCaption("Prijmeni");
@@ -507,21 +531,25 @@ public class MyUI extends UI {
 		refreshGrids();
 	}
 
-	private void createZamestnanec() {
-
-	}
-
 	private void updateZamestnanec(ZamestnanecEntity z) {
 
 	}
 
 	private void createAddUklidGrid() {
+		HorizontalLayout hl = new HorizontalLayout();
+
 		gridUklid = new Grid<>(UklidEntity.class);
 		gridUklid.setSizeFull();
 		createUklidGridColumns();
-		uklidLayout.addComponent(gridUklid);
-		uklidLayout.setComponentAlignment(gridUklid, Alignment.TOP_CENTER);
-		uklidLayout.setExpandRatio(gridUklid, 10);
+
+		UklidForm uklidForm = new UklidForm(uklidJerseyClient, this);
+
+		hl.addComponents(gridUklid, uklidForm);
+		hl.setExpandRatio(gridUklid, 10);
+		hl.setSizeFull();
+
+		uklidLayout.addComponent(hl);
+		uklidLayout.setExpandRatio(hl, 10);
 	}
 
 	private void createUklidGridColumns() {
@@ -556,39 +584,8 @@ public class MyUI extends UI {
 		refreshGrids();
 	}
 
-	private void createUklid() {
-
-	}
-
 	private void updateUklid(UklidEntity u) {
 
-	}
-
-	private void createAddNewButtons() {
-		Button addNew1 = new Button("Vytvorit klec", e -> {
-			createKlec();
-		});
-		klecLayout.addComponent(addNew1);
-
-		Button addNew2 = new Button("Vytvorit objednavku", e -> {
-			createObjednavka();
-		});
-		objednavkaLayout.addComponent(addNew2);
-
-		Button addNew3 = new Button("Vytvorit uklid", e -> {
-			createUklid();
-		});
-		uklidLayout.addComponent(addNew3);
-
-		Button addNew4 = new Button("Vytvorit zakaznika", e -> {
-			createZakaznik();
-		});
-		zakaznikLayout.addComponent(addNew4);
-
-		Button addNew5 = new Button("Vytvorit zamestnance", e -> {
-			createZamestnanec();
-		});
-		zamestnanecLayout.addComponent(addNew5);
 	}
 
 	private ZamestnanecEntity findZam(int id) {
