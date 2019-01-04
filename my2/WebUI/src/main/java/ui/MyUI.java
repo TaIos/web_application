@@ -92,9 +92,10 @@ public class MyUI extends UI {
 
 	private void initLayouts() {
 		createLayouts();
-		addSwitchButtons();
-		addHeadings();
-		createDataGrids();
+		createAddSwitchButtons();
+		createAddddHeadings();
+		createAddDataGrids();
+		createAddNewButtons();
 	}
 
 	private void createLayouts() {
@@ -126,7 +127,7 @@ public class MyUI extends UI {
 
 	}
 
-	private void addHeadings() {
+	private void createAddddHeadings() {
 
 		final Label headKlec = new Label("Klece");
 		headKlec.addStyleName(ValoTheme.LABEL_H1);
@@ -154,7 +155,7 @@ public class MyUI extends UI {
 		uklidLayout.setComponentAlignment(headUklid, Alignment.TOP_CENTER);
 	}
 
-	private void addSwitchButtons() {
+	private void createAddSwitchButtons() {
 		Button buttonKlec1 = new Button("Klece", e -> {
 			setContent(klecLayout);
 		});
@@ -270,15 +271,15 @@ public class MyUI extends UI {
 		gridUklid.setItems(uklidData);
 	}
 
-	private void createDataGrids() {
-		createKlecGrid();
-		createObjednavkyGrid();
-		createZakaznikGrid();
-		createZamestnanecGrid();
-		createUklidGrid();
+	private void createAddDataGrids() {
+		createAddKlecGrid();
+		createAddObjednavkyGrid();
+		createAddZakaznikGrid();
+		createAddZamestnanecGrid();
+		createAddUklidGrid();
 	}
 
-	private void createKlecGrid() {
+	private void createAddKlecGrid() {
 
 		gridKlec = new Grid<>(KlecEntity.class);
 		createKlecGridColumns();
@@ -302,32 +303,11 @@ public class MyUI extends UI {
 			}
 		));
 
-		TextField pocetTukanu = new TextField("Pocet tukanu");
-		TextField velikostKlece = new TextField("Velikost klece");
-		TextField vybaveni = new TextField("Vybaveni");
-		final Binder<KlecEntity> klecBinder = new Binder<>(KlecEntity.class);
-		klecBinder.forField(pocetTukanu).asRequired().withConverter(new StringToIntegerConverter("Pocet musi byt cislo")).bind(KlecEntity::getPocetTukanu, KlecEntity::setPocetTukanu);
-		klecBinder.forField(velikostKlece).asRequired().withConverter(new StringToFloatConverter("Velikost musi byt cislo")).bind(KlecEntity::getVelikostKleceM3, KlecEntity::setVelikostKleceM3);
-		klecBinder.forField(vybaveni).asRequired().bind(KlecEntity::getVybaveni, KlecEntity::setVybaveni);
-
-		gridKlec.addSelectionListener(e -> {
-			if (e.getFirstSelectedItem().isPresent()) {
-				klecBinder.readBean(e.getFirstSelectedItem().get());
-			}
-		});
-
-		gridKlec.addColumn(k -> "Potvrdit upravu", new ButtonRenderer<>(
+		gridKlec.addColumn(k -> "Uprait", new ButtonRenderer<>(
 			e -> {
-				KlecEntity k = new KlecEntity();
-				if (klecBinder.writeBeanIfValid(k)) {
-
-					addKlec(e.getItem());
-				}
+				updateKlec(k);
 			}
 		));
-
-		gridKlec.getEditor().setBinder(klecBinder);
-		gridKlec.getEditor().setEnabled(true);
 	}
 
 	private void removeKlec(KlecEntity k) {
@@ -360,16 +340,15 @@ public class MyUI extends UI {
 		refreshGrids();
 	}
 
-	private void addKlec(KlecEntity k) {
+	private void createKlec() {
 
-		refreshGrids();
 	}
 
 	private void updateKlec(KlecEntity k) {
 
 	}
 
-	private void createObjednavkyGrid() {
+	private void createAddObjednavkyGrid() {
 		gridObjednavky = new Grid<>(ObjednavkaEntity.class);
 		gridObjednavky.setSizeFull();
 		createObjednavkaGridColumns();
@@ -405,7 +384,15 @@ public class MyUI extends UI {
 		refreshGrids();
 	}
 
-	private void createZakaznikGrid() {
+	private void createObjednavka() {
+
+	}
+
+	private void updateObjednavka(ObjednavkaEntity o) {
+
+	}
+
+	private void createAddZakaznikGrid() {
 		gridZakaznici = new Grid<>(ZakaznikEntity.class);
 		gridZakaznici.setSizeFull();
 		createZakaznikGridColumns();
@@ -445,7 +432,15 @@ public class MyUI extends UI {
 		refreshGrids();
 	}
 
-	private void createZamestnanecGrid() {
+	private void createZakaznik() {
+
+	}
+
+	private void updateZakaznik(ZakaznikEntity z) {
+
+	}
+
+	private void createAddZamestnanecGrid() {
 		gridZamestnanec = new Grid<>(ZamestnanecEntity.class);
 		gridZamestnanec.setSizeFull();
 		gridZamestnanec.setItems(zamestnanciData);
@@ -491,7 +486,15 @@ public class MyUI extends UI {
 		refreshGrids();
 	}
 
-	private void createUklidGrid() {
+	private void createZamestnanec() {
+
+	}
+
+	private void updateZamestnanec(ZamestnanecEntity z) {
+
+	}
+
+	private void createAddUklidGrid() {
 		gridUklid = new Grid<>(UklidEntity.class);
 		gridUklid.setSizeFull();
 		createUklidGridColumns();
@@ -524,6 +527,41 @@ public class MyUI extends UI {
 		uklidJerseyClient.remove(u.getId().getZam_id() + "-" + u.getId().getKlec_id());
 		uklidData.remove(u);
 		refreshGrids();
+	}
+
+	private void createUklid() {
+
+	}
+
+	private void updateUklid(UklidEntity u) {
+
+	}
+
+	private void createAddNewButtons() {
+		Button addNew1 = new Button("Vytvorit klec", e -> {
+			createKlec();
+		});
+		klecLayout.addComponent(addNew1);
+
+		Button addNew2 = new Button("Vytvoril objednavku", e -> {
+			createObjednavka();
+		});
+		objednavkaLayout.addComponent(addNew2);
+
+		Button addNew3 = new Button("Vytvorit uklid", e -> {
+			createUklid();
+		});
+		uklidLayout.addComponent(addNew3);
+
+		Button addNew4 = new Button("Vytvorit zakaznika", e -> {
+			createZakaznik();
+		});
+		zakaznikLayout.addComponent(addNew4);
+
+		Button addNew5 = new Button("Vytvorit zamestnance", e -> {
+			createZamestnanec();
+		});
+		zamestnanecLayout.addComponent(addNew5);
 	}
 
 	private ZamestnanecEntity findZam(int id) {
