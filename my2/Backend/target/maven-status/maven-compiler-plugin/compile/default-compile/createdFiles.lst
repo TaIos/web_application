@@ -1,3 +1,7 @@
+service/AbstractFacade.class
+service/ApplicationConfig.class
 service/ZamestnanecEntityFacadeREST.class
 service/KlecEntityFacadeREST.class
-service/AbstractFacade.class
+service/UklidEntityFacadeREST.class
+service/ObjednavkaEntityFacadeREST.class
+service/ZakaznikEntityFacadeREST.class

@@ -59,10 +59,13 @@ public class UklidEntityFacadeREST extends AbstractFacade<UklidEntity> {
 	}
 
 	@PUT
-	@Path("{id}")
+	@Path("{id_zam}-{id_klec}")
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public void edit(@PathParam("id") PathSegment id, UklidEntity entity) {
-		super.edit(entity);
+	public void edit(
+		@PathParam("id_zam") Integer id_zam,
+		@PathParam("id_klec") Integer id_klec) {
+		UklidKey key = new UklidKey(id_zam, id_klec);
+		super.edit(super.find(key));
 	}
 
 	@DELETE
@@ -75,11 +78,13 @@ public class UklidEntityFacadeREST extends AbstractFacade<UklidEntity> {
 	}
 
 	@GET
-	@Path("{id}")
+	@Path("{id_zam}-{id_klec}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public UklidDTO findUklid(@PathParam("id") PathSegment id) {
+	public UklidDTO findUklid(
+		@PathParam("id_zam") Integer id_zam,
+		@PathParam("id_klec") Integer id_klec) {
+		UklidKey key = new UklidKey(id_zam, id_klec);
 		UklidDTO uklid = new UklidDTO();
-		entity.UklidKey key = getPrimaryKey(id);
 		ArrayList<UklidEntity> res = new ArrayList<>();
 		res.add(super.find(key));
 		uklid.setUklid(res);
